@@ -48,9 +48,7 @@ export default class LoadingScene extends Scene {
       })
       .catch(error => {
         console.error(error);
-        this.view?.fail(
-          'LỖI: Khởi tạo game không thành công. Vui lòng tải lại trang.<br/>' + error.message
-        );
+        this.view?.fail(error.message);
       });
   }
 

@@ -55,7 +55,7 @@ defineExpose({
     <div class="progress-bar" :style="{ width: progress + '%' }"></div>
   </div>
   <div class="loading-text">{{ message }}</div>
-  <!-- v-html because the failure text carries a <br/> between the sentence
-       and the underlying error message -->
-  <h2 class="error-text" v-html="error"></h2>
+  <h2 v-if="error" class="error-text">
+    LỖI: Khởi tạo game không thành công. Vui lòng tải lại trang.<br />{{ error }}
+  </h2>
 </template>
