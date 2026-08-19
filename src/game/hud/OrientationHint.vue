@@ -66,9 +66,9 @@ onBeforeUnmount(() => {
         Bật <strong>Toàn màn hình</strong> trong bảng luyện tập để máy tự xoay và giữ ngang.
       </p>
       <button
+        id="orientation-hint-dismiss"
         type="button"
         class="orientation-hint-dismiss"
-        id="orientation-hint-dismiss"
         @click="dismissed = true"
         @touchend.prevent="dismissed = true"
       >

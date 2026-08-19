@@ -185,11 +185,11 @@ const STACK_STEPS = [1, 10, 100];
     <div class="practice-cheat-units">
       <button
         v-for="(entry, index) in roster"
+        :id="`practice-cheat-unit-${index}`"
         :key="index"
         type="button"
         class="practice-cheat-unit"
         :class="{ selected: selected === entry }"
-        :id="`practice-cheat-unit-${index}`"
         @click="selectUnit(index)"
       >
         <span class="practice-cheat-unit-label">{{ labelOf(index) }}</span>
@@ -199,8 +199,8 @@ const STACK_STEPS = [1, 10, 100];
 
     <label class="pregame-toggle">
       <input
-        type="checkbox"
         id="practice-cheat-invuln"
+        type="checkbox"
         :checked="invulnerable"
         @change="onInvulnerableChange"
       />
@@ -209,8 +209,8 @@ const STACK_STEPS = [1, 10, 100];
 
     <label class="pregame-toggle">
       <input
-        type="checkbox"
         id="practice-cheat-reveal-map"
+        type="checkbox"
         :checked="revealMap"
         @change="onRevealMapChange"
       />
@@ -228,8 +228,8 @@ const STACK_STEPS = [1, 10, 100];
           class="pregame-toggle practice-debug-toggle"
         >
           <input
-            type="checkbox"
             :id="`practice-debug-${layer.key}`"
+            type="checkbox"
             :checked="debugOn(layer.key)"
             @change="onDebugChange(layer.key, $event)"
           />
@@ -239,13 +239,13 @@ const STACK_STEPS = [1, 10, 100];
     </div>
 
     <div class="practice-cheat-actions">
-      <button type="button" class="practice-cheat-btn" id="practice-cheat-refill" @click="refill">
+      <button id="practice-cheat-refill" type="button" class="practice-cheat-btn" @click="refill">
         Hồi đầy
       </button>
       <button
+        id="practice-cheat-cooldowns"
         type="button"
         class="practice-cheat-btn"
-        id="practice-cheat-cooldowns"
         @click="clearCooldowns"
       >
         Xoá hồi chiêu

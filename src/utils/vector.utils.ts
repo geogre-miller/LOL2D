@@ -9,7 +9,7 @@ const VectorUtils = {
     autoRandomWhenZero = true
   ) {
     const from = rootVector.copy();
-    let dir = p5.Vector.sub(targetVector, from);
+    const dir = p5.Vector.sub(targetVector, from);
     const distance = dir.mag();
     if (autoRandomWhenZero && distance === 0) dir.add(random(-1, 1), random(-1, 1));
     const to = p5.Vector.add(from, dir.setMag(range));

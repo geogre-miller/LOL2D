@@ -99,7 +99,7 @@ export class Ashe_R_Object extends SpellObject {
       }
 
       // Enemy champions only — it flies straight through a minion wave.
-      let enemies = this.game.objectManager.queryObjects({
+      const enemies = this.game.objectManager.queryObjects({
         area: new Circle({
           x: this.position.x,
           y: this.position.y,
@@ -113,7 +113,7 @@ export class Ashe_R_Object extends SpellObject {
         this.isMissile = false;
 
         // add buff to enemies
-        let enemiesInRange = this.game.objectManager.queryObjects({
+        const enemiesInRange = this.game.objectManager.queryObjects({
           area: new Circle({
             x: this.position.x,
             y: this.position.y,
@@ -126,7 +126,7 @@ export class Ashe_R_Object extends SpellObject {
           MIN_STUN_MS +
           (MAX_STUN_MS - MIN_STUN_MS) * travelRamp(this.distanceTravelled, FULL_POWER_DISTANCE);
         enemiesInRange.forEach((p: any) => {
-          let stunBuff = new Stun(stunMs, this.owner, p);
+          const stunBuff = new Stun(stunMs, this.owner, p);
           stunBuff.buffAddType = BuffAddType.RENEW_EXISTING;
           p.addBuff(stunBuff);
           p.takeDamage(DAMAGE, this.owner);
@@ -151,7 +151,7 @@ export class Ashe_R_Object extends SpellObject {
 
     // explode
     if (this.exploding) {
-      let alpha = Math.min(EXPLODE_ANIMATION_MS - this.explodeAge, 150);
+      const alpha = Math.min(EXPLODE_ANIMATION_MS - this.explodeAge, 150);
 
       stroke(200, alpha);
       fill(100, 100, 200, alpha);
@@ -159,7 +159,7 @@ export class Ashe_R_Object extends SpellObject {
 
       fill(200, alpha);
       for (let i = 0; i < 5; i++) {
-        let randPos = p5.Vector.random2D().mult(random(this.size / 2));
+        const randPos = p5.Vector.random2D().mult(random(this.size / 2));
         circle(this.position.x + randPos.x, this.position.y + randPos.y, random(10, 20));
       }
     }

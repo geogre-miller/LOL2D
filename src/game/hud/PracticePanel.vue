@@ -86,11 +86,11 @@ const tab = activePracticeTab;
     <div class="pregame-tabs practice-tabs">
       <button
         v-for="item of TABS"
+        :id="`practice-tab-${item.id}`"
         :key="item.id"
         type="button"
         class="pregame-tab practice-tab"
         :class="{ selected: tab === item.id }"
-        :id="`practice-tab-${item.id}`"
         @click="tab = item.id"
       >
         {{ item.label }}
@@ -99,9 +99,9 @@ const tab = activePracticeTab;
       <!-- The shell's own way out, on every tab. See the file comment: no tab
            owns an exit from a panel that covers a paused match. -->
       <button
+        id="practice-close"
         type="button"
         class="practice-close"
-        id="practice-close"
         title="Đóng"
         @click="hud.closeSpellPicker()"
       >

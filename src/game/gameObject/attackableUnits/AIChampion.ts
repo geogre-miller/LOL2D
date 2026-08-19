@@ -104,7 +104,7 @@ export default class AIChampion extends Champion {
     // an attack order owns the destination while it is running, so wandering off
     // to a random point has to wait until the order is done
     if (this._autoMove && !this.basicAttack.target) {
-      let distToDest = this.position.dist(this.destination);
+      const distToDest = this.position.dist(this.destination);
       if (distToDest < this.stats.speed.value) {
         this.moveToRandomLocation();
       }
@@ -124,7 +124,7 @@ export default class AIChampion extends Champion {
       }
     } else if (this._autoCast) {
       if (random() < 0.1) {
-        let spellIndex = floor(random(this.spells.length));
+        const spellIndex = floor(random(this.spells.length));
         const spell = this.spells[spellIndex];
         const context = this.createSpellContext(spell);
         if (context && spell.press(context)) {

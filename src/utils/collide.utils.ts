@@ -194,10 +194,10 @@ const CollideUtils = {
     x4: number,
     y4: number
   ): boolean {
-    let uA =
+    const uA =
       ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) /
       ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
-    let uB =
+    const uB =
       ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) /
       ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
     return uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1;
@@ -229,8 +229,8 @@ const CollideUtils = {
     for (let current = 0; current < vertices.length; current++) {
       next = current + 1;
       if (next == vertices.length) next = 0;
-      let vc = vertices[current];
-      let vn = vertices[next];
+      const vc = vertices[current];
+      const vn = vertices[next];
       if (
         ((vc.y >= py && vn.y < py) || (vc.y < py && vn.y >= py)) &&
         px < ((vn.x - vc.x) * (py - vc.y)) / (vn.y - vc.y) + vc.x
@@ -247,8 +247,8 @@ const CollideUtils = {
     for (let current = 0; current < vertices.length; current++) {
       next = current + 1;
       if (next == vertices.length) next = 0;
-      let vc = vertices[current];
-      let vn = vertices[next];
+      const vc = vertices[current];
+      const vn = vertices[next];
       if (this.lineCircle(vc.x, vc.y, vn.x, vn.y, cx, cy, r)) return true;
     }
     return this.polyPoint(vertices, cx, cy);
@@ -267,8 +267,8 @@ const CollideUtils = {
     for (let current = 0; current < vertices.length; current++) {
       next = current + 1;
       if (next == vertices.length) next = 0;
-      let vc = vertices[current];
-      let vn = vertices[next];
+      const vc = vertices[current];
+      const vn = vertices[next];
       if (this.lineRect(vc.x, vc.y, vn.x, vn.y, rx, ry, rw, rh)) {
         return isCheckInside ? this.polyPoint(vertices, rx, ry) : true;
       }
@@ -283,10 +283,10 @@ const CollideUtils = {
     for (let current = 0; current < vertices.length; current++) {
       next = current + 1;
       if (next == vertices.length) next = 0;
-      let x3 = vertices[current].x;
-      let y3 = vertices[current].y;
-      let x4 = vertices[next].x;
-      let y4 = vertices[next].y;
+      const x3 = vertices[current].x;
+      const y3 = vertices[current].y;
+      const x4 = vertices[next].x;
+      const y4 = vertices[next].y;
       if (this.lineLine(x1, y1, x2, y2, x3, y3, x4, y4)) {
         return true;
       }
@@ -302,8 +302,8 @@ const CollideUtils = {
     for (let current = 0; current < poly1.length; current++) {
       next = current + 1;
       if (next == poly1.length) next = 0;
-      let vc = poly1[current];
-      let vn = poly1[next];
+      const vc = poly1[current];
+      const vn = poly1[next];
       if (this.polyLine(poly2, vc.x, vc.y, vn.x, vn.y)) return true;
       if (this.polyPoint(poly1, poly2[0].x, poly2[0].y)) return true;
     }

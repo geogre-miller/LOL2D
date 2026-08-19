@@ -158,7 +158,7 @@ export const PredefinedFilters = {
   excludeDead: (object: GameObject): boolean =>
     object instanceof AttackableUnit ? !object.isDead : Boolean(object),
   includeUntargetable: (object: GameObject): boolean =>
-    !hasTargetableProperty(object) || !Boolean(object.targetable),
+    !hasTargetableProperty(object) || !object.targetable,
   excludeUntargetable: (object: GameObject): boolean =>
     hasTargetableProperty(object) && Boolean(object.targetable),
   /**

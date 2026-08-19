@@ -166,8 +166,8 @@ export default class AttackableUnit extends GameObject {
       }
     }
 
-    let isStealthed = hasFlag(this.stats.actionState, ActionState.STEALTHED);
-    let alphaColor = this.isInsideBush ? 100 : isStealthed ? 20 : 255;
+    const isStealthed = hasFlag(this.stats.actionState, ActionState.STEALTHED);
+    const alphaColor = this.isInsideBush ? 100 : isStealthed ? 20 : 255;
 
     // mutate in place to avoid allocating a new object every frame per unit
     const av = this.animatedValues;
@@ -209,8 +209,8 @@ export default class AttackableUnit extends GameObject {
   }
 
   drawAvatar() {
-    let pos = this.position;
-    let { displaySize: size, alpha } = this.animatedValues;
+    const pos = this.position;
+    const { displaySize: size, alpha } = this.animatedValues;
 
     push();
     noStroke();
@@ -242,11 +242,11 @@ export default class AttackableUnit extends GameObject {
 
   drawDir() {
     if (!this.isDead && this.game.worldMouse) {
-      let pos = this.position;
-      let { displaySize: size, alpha } = this.animatedValues;
+      const pos = this.position;
+      const { displaySize: size, alpha } = this.animatedValues;
 
       push();
-      let mouseDir = p5.Vector.sub(this.game.worldMouse, pos).setMag(size / 2 + 2);
+      const mouseDir = p5.Vector.sub(this.game.worldMouse, pos).setMag(size / 2 + 2);
       stroke(255, Math.min(alpha, 125));
       strokeWeight(4);
       line(pos.x, pos.y, pos.x + mouseDir.x, pos.y + mouseDir.y);
@@ -264,8 +264,8 @@ export default class AttackableUnit extends GameObject {
 
   drawHealthBar(_compact = false) {
     push();
-    let pos = this.position;
-    let { displaySize: size, alpha } = this.animatedValues;
+    const pos = this.position;
+    const { displaySize: size, alpha } = this.animatedValues;
 
     // Overlay, not world: see Camera.constantSize. The bar and its text
     // compensate together — 12px digits over a 39px bar is worse than either
@@ -273,15 +273,15 @@ export default class AttackableUnit extends GameObject {
     // really is that big.
     const k = this.game?.camera?.constantSize?.(1) ?? 1;
 
-    let healthBarHeight = 6 * k;
-    let healthBarWidth = 100 * k;
-    let healthBarX = pos.x - healthBarWidth / 2;
-    let healthBarY = pos.y - size / 2 - healthBarHeight - 15 * k;
-    let healthBarColor = this.isAllied ? [67, 196, 29, alpha] : [196, 67, 29, alpha];
-    let healthBarBgColor = [242, 242, 242, alpha];
-    let healthBarValue = ~~this.stats.health.value;
-    let healthBarMaxValue = ~~this.stats.maxHealth.value;
-    let healthBarValuePercent = healthBarValue / healthBarMaxValue;
+    const healthBarHeight = 6 * k;
+    const healthBarWidth = 100 * k;
+    const healthBarX = pos.x - healthBarWidth / 2;
+    const healthBarY = pos.y - size / 2 - healthBarHeight - 15 * k;
+    const healthBarColor = this.isAllied ? [67, 196, 29, alpha] : [196, 67, 29, alpha];
+    const healthBarBgColor = [242, 242, 242, alpha];
+    const healthBarValue = ~~this.stats.health.value;
+    const healthBarMaxValue = ~~this.stats.maxHealth.value;
+    const healthBarValuePercent = healthBarValue / healthBarMaxValue;
 
     noStroke();
     fill(healthBarBgColor);
@@ -319,7 +319,7 @@ export default class AttackableUnit extends GameObject {
 
     switch (buff.buffAddType) {
       case BuffAddType.REPLACE_EXISTING:
-        for (let b of preBuffs) b.deactivateBuff();
+        for (const b of preBuffs) b.deactivateBuff();
         this.buffs.push(buff);
         buff.activateBuff();
         break;
@@ -351,7 +351,7 @@ export default class AttackableUnit extends GameObject {
         break;
 
       case BuffAddType.STACKS_AND_RENEWS:
-        for (let b of preBuffs) b.renewBuff();
+        for (const b of preBuffs) b.renewBuff();
         if (preBuffs.length >= buff.maxStacks) {
           preBuffs[0].deactivateBuff();
         }
@@ -383,7 +383,7 @@ export default class AttackableUnit extends GameObject {
     this._buffEffectsToEnable = 0;
     this._buffEffectsToDisable = 0;
 
-    for (let buff of this.buffs) {
+    for (const buff of this.buffs) {
       buff.update();
       this._buffEffectsToEnable |= buff.statusFlagsToEnable;
       this._buffEffectsToDisable |= buff.statusFlagsToDisable;
@@ -425,7 +425,7 @@ export default class AttackableUnit extends GameObject {
     heal = Math.round(heal);
     if (heal <= 0) return;
 
-    let combatText = new CombatText(this);
+    const combatText = new CombatText(this);
     combatText.text = '+' + heal;
     combatText.textColor = [0, 255, 0];
     this.game.objectManager.addObject(combatText);
@@ -469,7 +469,7 @@ export default class AttackableUnit extends GameObject {
       return;
     }
 
-    let combatText = new CombatText(this);
+    const combatText = new CombatText(this);
     combatText.text = '-' + damage;
     combatText.textColor = [255, 0, 0];
     this.game.objectManager.addObject(combatText);
@@ -556,7 +556,7 @@ export default class AttackableUnit extends GameObject {
     // a route planned from where the corpse fell means nothing at the fountain
     this.pathAgent?.clear();
 
-    let spawnPoint = this.game.randomSpawnPoint();
+    const spawnPoint = this.game.randomSpawnPoint();
     this.position.set(spawnPoint.x, spawnPoint.y);
     this.destination.set(spawnPoint.x, spawnPoint.y);
   }

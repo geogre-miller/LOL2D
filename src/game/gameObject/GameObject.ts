@@ -184,7 +184,7 @@ export default class GameObject {
   }
 
   drawBoundingBox(collide = false) {
-    let bb = collide ? this.getCollideBoundingBox() : this.getDisplayBoundingBox();
+    const bb = collide ? this.getCollideBoundingBox() : this.getDisplayBoundingBox();
     if (!bb) return;
     push();
     stroke(255, 255, 0, 200);

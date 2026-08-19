@@ -183,7 +183,8 @@ watch(
       <h4 class="saved-kit-heading">Bộ đã lưu</h4>
       <div class="saved-kit-list">
         <div v-for="kit in savedKits" :key="kit.id" class="saved-kit" :data-kit="kit.name">
-          <button type="button" class="saved-kit-apply" :title="`Dùng bộ ${kit.name}`"
+          <button
+type="button" class="saved-kit-apply" :title="`Dùng bộ ${kit.name}`"
             @click="emit('applySavedKit', kit)">
             <span class="saved-kit-name">{{ kit.name }}</span>
             <span class="kit-apply-chip">Dùng</span>
@@ -192,7 +193,8 @@ watch(
                `.practice-remove-bot`: a saved kit is a shortcut, not the
                loadout itself, and re-saving one is the same two taps that
                made it. -->
-          <button type="button" class="saved-kit-delete" :title="`Xoá bộ ${kit.name}`"
+          <button
+type="button" class="saved-kit-delete" :title="`Xoá bộ ${kit.name}`"
             :aria-label="`Xoá bộ ${kit.name}`" @click="emit('deleteSavedKit', kit)">
             <i class="fas fa-times"></i>
           </button>
@@ -200,12 +202,14 @@ watch(
       </div>
     </section>
 
-    <button type="button" class="catalog-random-card" :class="{ selected: selectedChampion === 'random' }"
+    <button
+type="button" class="catalog-random-card" :class="{ selected: selectedChampion === 'random' }"
       @click="emit('pickRandom')">
       <i class="fas fa-random"></i> Ngẫu Nhiên Tất Cả
     </button>
 
-    <section v-for="shelf in shelves" :key="shelf.name" class="kit-shelf" :class="{
+    <section
+v-for="shelf in shelves" :key="shelf.name" class="kit-shelf" :class="{
       selected: isSelectedShelf(shelf),
       'has-kit': shelf.kit.length > 0,
       open: shelf === openShelf,
@@ -221,11 +225,13 @@ watch(
            answers live in the opened body below. The basic-attack and summoner
            shelves render the same row as an inert heading — they are opened by
            selecting the slot they serve, not by being tapped. -->
-      <button v-if="shelf.kit.length" type="button" class="kit-shelf-heading kit-shelf-apply"
+      <button
+v-if="shelf.kit.length" type="button" class="kit-shelf-heading kit-shelf-apply"
         :title="shelf === openShelf ? `Đóng ${shelf.name}` : `Xem bộ chiêu ${shelf.name}`"
         :aria-expanded="shelf === openShelf" @click="emit('toggleShelf', shelf)">
         <div class="catalog-avatar-wrap">
-          <img v-if="shelf.avatar" class="catalog-group-avatar" :src="AssetManager.get(shelf.avatar).url"
+          <img
+v-if="shelf.avatar" class="catalog-group-avatar" :src="AssetManager.get(shelf.avatar).url"
             :alt="shelf.name" loading="lazy" decoding="async" />
           <span v-if="isSelectedShelf(shelf) && shelf !== openShelf" class="kit-tile-badge" title="Đang chọn tướng này">
             <i class="fas fa-check" aria-hidden="true"></i>
@@ -244,7 +250,8 @@ watch(
         <!-- <i v-if="shelf !== openShelf" class="fas fa-chevron-down kit-shelf-chevron" aria-hidden="true"></i> -->
       </button>
       <div v-else class="kit-shelf-heading">
-        <img v-if="shelf.avatar" class="catalog-group-avatar" :src="AssetManager.get(shelf.avatar).url"
+        <img
+v-if="shelf.avatar" class="catalog-group-avatar" :src="AssetManager.get(shelf.avatar).url"
           :alt="shelf.name" loading="lazy" decoding="async" />
         <span class="kit-shelf-name">{{ shelf.name }}</span>
       </div>
@@ -255,7 +262,8 @@ watch(
            tap could hit — which is the thing that made the old tile grid unable
            to do anything *but* replace the kit. -->
       <div v-if="shelf === openShelf && shelf.kit.length" class="kit-shelf-cta">
-        <button type="button" class="hextech-btn kit-apply-all" :class="{ 'is-active-kit': isSelectedShelf(shelf) }"
+        <button
+type="button" class="hextech-btn kit-apply-all" :class="{ 'is-active-kit': isSelectedShelf(shelf) }"
           :title="`Dùng cả bộ chiêu ${shelf.name}`" @click="emit('applyKit', shelf)">
           <i class="fas" :class="isSelectedShelf(shelf) ? 'fa-check-double' : 'fa-bolt'" aria-hidden="true"></i>
           <span class="kit-apply-all-label">
@@ -285,7 +293,8 @@ watch(
              menu unless something says otherwise. That menu both hides the
              description the hold just opened and cancels the touch that would
              have finished the gesture. The hold belongs to the app. -->
-        <button v-for="item in shelf.entries" :key="item.entry.id" type="button" class="catalog-spell-card" :class="{
+        <button
+v-for="item in shelf.entries" :key="item.entry.id" type="button" class="catalog-spell-card" :class="{
           selected: activeEntryId === item.entry.id,
           'matches-slot': slotLetterOf(item.slotIndex) === activeSlotLabel,
         }" :data-spell="item.entry.id" @click="pick(item.entry)"

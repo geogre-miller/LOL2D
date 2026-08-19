@@ -32,7 +32,7 @@ export default class Ghost extends Spell {
   manaCost = 100;
 
   onSpellCast() {
-    let speedupBuff = new Speedup(DURATION, this.owner, this.owner);
+    const speedupBuff = new Speedup(DURATION, this.owner, this.owner);
     speedupBuff.percent = SPEED_PERCENT;
     this.owner.addBuff(speedupBuff);
 

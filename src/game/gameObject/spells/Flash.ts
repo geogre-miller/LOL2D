@@ -19,10 +19,10 @@ export default class Flash extends Spell {
   }
 
   onSpellCast() {
-    let maxDistance = 180;
+    const maxDistance = 180;
 
-    let oldPos = this.owner.position.copy();
-    let { from, to } = VectorUtils.getVectorWithMaxRange(
+    const oldPos = this.owner.position.copy();
+    const { from, to } = VectorUtils.getVectorWithMaxRange(
       this.owner.position,
       this.aimPoint,
       maxDistance
@@ -30,10 +30,10 @@ export default class Flash extends Spell {
     if (!this.blinkOwnerTo(to.x, to.y)) return;
 
     // add smoke effect
-    let newPosEffect = new Flash_Object(this.owner);
+    const newPosEffect = new Flash_Object(this.owner);
     this.game.objectManager.addObject(newPosEffect);
 
-    let oldPosEffect = new Flash_Object(this.owner, oldPos);
+    const oldPosEffect = new Flash_Object(this.owner, oldPos);
     oldPosEffect.position = oldPos;
     this.game.objectManager.addObject(oldPosEffect);
   }
@@ -50,8 +50,8 @@ export class Flash_Object extends SpellObject {
   onAdded() {
     this.game.objectManager.addObject(this.particleSystem);
 
-    let pos = this.position;
-    let size = this.owner.stats.size.value / 2;
+    const pos = this.position;
+    const size = this.owner.stats.size.value / 2;
     for (let i = 0; i < 10; i++) {
       this.particleSystem.addParticle({
         x: pos.x + random(-size, size),

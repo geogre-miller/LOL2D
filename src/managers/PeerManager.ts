@@ -1,6 +1,6 @@
 // https://status.peerjs.com/
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 // @ts-ignore - PeerJS loaded via CDN
 type Peer = any;
 

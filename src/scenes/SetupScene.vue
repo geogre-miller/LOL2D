@@ -121,8 +121,8 @@ const onReset = (): void => {
 
     <div class="pregame-tabs" role="tablist">
       <button
-        type="button"
         id="pregame-tab-players"
+        type="button"
         class="pregame-tab"
         :class="{ selected: activeTab === 'players' }"
         @click="activeTab = 'players'"
@@ -130,8 +130,8 @@ const onReset = (): void => {
         <i class="fas fa-users"></i> Tướng
       </button>
       <button
-        type="button"
         id="pregame-tab-settings"
+        type="button"
         class="pregame-tab"
         :class="{ selected: activeTab === 'settings' }"
         @click="activeTab = 'settings'"

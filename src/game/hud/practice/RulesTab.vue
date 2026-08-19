@@ -291,8 +291,8 @@ const resetDefaults = (): void => {
         <strong id="practice-cdr-value">{{ rules.cooldownReductionPercent }}%</strong></span
       >
       <input
-        type="range"
         id="practice-cdr"
+        type="range"
         :min="CDR_PERCENT_MIN"
         :max="CDR_PERCENT_MAX"
         :step="CDR_PERCENT_STEP"
@@ -307,8 +307,8 @@ const resetDefaults = (): void => {
         >Thu phóng: <strong id="practice-zoom-value">{{ Math.round(zoom * 100) }}%</strong></span
       >
       <input
-        type="range"
         id="practice-zoom"
+        type="range"
         :min="ZOOM_FACTOR_MIN"
         :max="ZOOM_FACTOR_MAX"
         :step="ZOOM_STEP"
@@ -319,17 +319,17 @@ const resetDefaults = (): void => {
     </label>
 
     <label class="pregame-toggle">
-      <input type="checkbox" id="practice-urf" :checked="rules.manaFree" @change="onUrfChange" />
+      <input id="practice-urf" type="checkbox" :checked="rules.manaFree" @change="onUrfChange" />
       <span>URF (không tốn mana)</span>
     </label>
 
     <label class="pregame-toggle">
-      <input type="checkbox" id="practice-jungle" :checked="jungle" @change="onJungleChange" />
+      <input id="practice-jungle" type="checkbox" :checked="jungle" @change="onJungleChange" />
       <span>Quái rừng</span>
     </label>
 
     <label class="pregame-toggle">
-      <input type="checkbox" id="practice-minions" :checked="minions" @change="onMinionsChange" />
+      <input id="practice-minions" type="checkbox" :checked="minions" @change="onMinionsChange" />
       <span>Lính</span>
     </label>
 
@@ -344,9 +344,9 @@ const resetDefaults = (): void => {
          reaches for first. -->
     <button
       v-if="fullscreenSupported"
+      id="practice-fullscreen"
       type="button"
       class="practice-fullscreen"
-      id="practice-fullscreen"
       @click="toggleFullscreen"
       @touchend.prevent="toggleFullscreen"
     >
@@ -359,10 +359,10 @@ const resetDefaults = (): void => {
          file comment on why each is here and why both confirm. -->
     <div class="practice-tab-actions">
       <button
+        id="practice-reset"
         type="button"
         class="practice-reset"
         :class="{ confirming: confirmingReset }"
-        id="practice-reset"
         @click="resetDefaults"
       >
         <i class="fas fa-rotate-left" aria-hidden="true"></i>
@@ -370,10 +370,10 @@ const resetDefaults = (): void => {
       </button>
 
       <button
+        id="practice-exit"
         type="button"
         class="practice-exit"
         :class="{ confirming: confirmingExit }"
-        id="practice-exit"
         @click="exitMatch"
       >
         <i class="fas fa-sign-out-alt" aria-hidden="true"></i>

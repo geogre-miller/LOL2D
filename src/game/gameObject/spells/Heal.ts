@@ -17,27 +17,27 @@ export default class Heal extends Spell {
 
   onSpellCast() {
     // heal 30% health
-    let currentHeal = this.owner.stats.health.value;
-    let maxHeal = this.owner.stats.maxHealth.value;
-    let newHeal = Math.min(currentHeal + maxHeal * 0.3, maxHeal);
+    const currentHeal = this.owner.stats.health.value;
+    const maxHeal = this.owner.stats.maxHealth.value;
+    const newHeal = Math.min(currentHeal + maxHeal * 0.3, maxHeal);
 
-    let modifier = new StatModifier();
+    const modifier = new StatModifier();
     modifier.baseValue = newHeal - currentHeal;
     this.owner.stats.health.addModifier(modifier);
 
     // heal effect
-    let healObject = new Heal_Object(this.owner);
+    const healObject = new Heal_Object(this.owner);
     this.game.objectManager.addObject(healObject);
 
     // ghost buff for 1s
-    let speedBuff = new Speedup(1000, this.owner, this.owner);
+    const speedBuff = new Speedup(1000, this.owner, this.owner);
     speedBuff.image = this.image;
     speedBuff.percent = 0.5;
     this.owner.addBuff(speedBuff);
 
     // combat text
     if (newHeal > currentHeal) {
-      let combatText = new CombatText(this.owner);
+      const combatText = new CombatText(this.owner);
       combatText.text = `+ ${~~(newHeal - currentHeal)}`;
       combatText.textColor = [0, 255, 0];
       this.game.objectManager.addObject(combatText);
@@ -60,7 +60,7 @@ export class Heal_Object extends SpellObject {
     if (this.age > this.lifeTime) this.toRemove = true;
 
     if (random() < 0.15) {
-      let size = this.owner.stats.size.value / 2;
+      const size = this.owner.stats.size.value / 2;
       this.particleSystem.addParticle({
         x: this.owner.position.x + random(-size, size),
         y: this.owner.position.y + random(-size, size),
