@@ -6,6 +6,7 @@ import Spell from '@/game/gameObject/Spell';
 import SpellObject from '@/game/gameObject/SpellObject';
 import Airborne from '@/game/gameObject/buffs/Airborne';
 import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
+import type GameObject from '@/game/gameObject/GameObject';
 
 export default class Blitzcrank_E extends Spell {
   // Not a projectile, but the drag still only picks direction: the cone is
@@ -39,7 +40,7 @@ export default class Blitzcrank_E extends Spell {
       filters: [
         PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId),
         // dot product rather than comparing raw headings: no seam at ±PI
-        (o: any) => {
+        (o: GameObject) => {
           const toEnemy = p5.Vector.sub(o.position, this.owner.position);
           if (toEnemy.magSq() === 0) return true;
           return facing.dot(toEnemy.normalize()) >= minDot;

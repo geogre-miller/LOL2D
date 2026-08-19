@@ -76,7 +76,7 @@ export default class Yasuo_Q extends Spell {
       // The loaded cast is drawn hotter, so the stack state is legible from the
       // world and not only from the icon in the HUD.
       obj.stacks = this.hitStackCount;
-      obj.onHit = (_champ: any) => {
+      obj.onHit = (_champ: AttackableUnit) => {
         this.hitStackCount++;
         this.lastHitTime = Date.now();
         this.currentCooldown = this.reducedCooldown(this.coolDownIfHit);
@@ -157,8 +157,8 @@ export class Yasuo_Q_Object extends SpellObject {
   lifeTime = Q_CAST_MS;
   age = 0;
 
-  playersEffected: any[] = [];
-  onHit: (champ: any) => void = () => {};
+  playersEffected: AttackableUnit[] = [];
+  onHit: (champ: AttackableUnit) => void = () => {};
 
   update() {
     this.age += deltaTime;
@@ -175,7 +175,7 @@ export class Yasuo_Q_Object extends SpellObject {
       filters: [
         PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId),
         PredefinedFilters.excludeObjects(this.playersEffected),
-        (o: any) => {
+        (o: AttackableUnit) => {
           const vertices = rectToVertices(
             this.owner.position.x,
             this.owner.position.y - this.rayWidth / 2 - o.stats.size.value / 2,

@@ -1,4 +1,5 @@
 import { Circle, Rectangle } from '@/libs/quadtree';
+import type GameObject from '@/game/gameObject/GameObject';
 import AssetManager from '@/managers/AssetManager';
 import VectorUtils from '@/utils/vector.utils';
 import { PredefinedFilters } from '@/game/managers/ObjectManager';
@@ -6,6 +7,7 @@ import Spell from '@/game/gameObject/Spell';
 import SpellObject from '@/game/gameObject/SpellObject';
 import Stun from '@/game/gameObject/buffs/Stun';
 import ParticleSystem from '@/game/gameObject/helpers/ParticleSystem';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export const CAST_RANGE = 300;
 export const PREPARE_MS = 1000;
@@ -112,7 +114,7 @@ export class Veigar_E_Object extends SpellObject {
     },
   });
 
-  enemiesEffected: any[] = [];
+  enemiesEffected: AttackableUnit[] = [];
 
   onAdded() {
     for (let i = 0; i < PILLAR_COUNT; i++) {
@@ -164,7 +166,7 @@ export class Veigar_E_Object extends SpellObject {
         filters: [
           PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId),
           PredefinedFilters.excludeObjects(this.enemiesEffected),
-          (o: any) => {
+          (o: GameObject) => {
             const distance = o.position.dist(this.position);
             // collide with edge of the circle
             return (

@@ -2,6 +2,9 @@ import PolyVisibility from '@/libs/poly-visibility';
 import TerrainType from '@/game/enums/TerrainType';
 import CollideUtils from '@/utils/collide.utils';
 import AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
+import type GameObject from '@/game/gameObject/GameObject';
+import type Obstacle from '@/game/gameObject/map/Obstacle';
+import type Game from '@/game/Game';
 import { PredefinedFilters } from '@/game/managers/ObjectManager';
 import { Circle } from '@/libs/quadtree';
 import { removeGraphics } from '@/utils/graphics.utils';
@@ -43,10 +46,13 @@ interface SightCacheEntry {
   obstacleSignature: string;
 }
 
-type SightResult = { object: any; sightPoly: { x: number; y: number }[] };
+type SightResult = { object: GameObject; sightPoly: { x: number; y: number }[] };
 
 export default class FogOfWar {
-  game: any;
+  game: Game;
+  // p5's Graphics type omits most of the drawing surface it actually has (see
+  // utils/graphics.utils.ts); every caller here holds it as `any` for that reason.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   overlay: any;
   outOfViewColor: string;
   colorStops: { stop: number; color: string }[];
@@ -55,7 +61,7 @@ export default class FogOfWar {
   // reassigned, so identity is a stable cache key). A WeakMap means dead units
   // that get dereferenced elsewhere (removed from ObjectManager.objects) fall
   // out of this cache for free once GC'd — nothing here can leak.
-  sightCache: WeakMap<any, SightCacheEntry>;
+  sightCache: WeakMap<GameObject, SightCacheEntry>;
   // CanvasGradient objects are reused across units/frames by bucketing on the
   // (innerR, radius) pair that defines their stops; screen position is applied
   // separately via context translate (see prepareRadialGradient).
@@ -66,7 +72,7 @@ export default class FogOfWar {
     result: SightResult[];
   };
 
-  constructor(game: any) {
+  constructor(game: Game) {
     this.game = game;
     this.overlay = createGraphics(windowWidth, windowHeight);
     // Pinned, not inherited. The overlay is a full-viewport buffer that is
@@ -135,7 +141,7 @@ export default class FogOfWar {
       queryByDisplayBoundingBox: true,
       filters: [
         PredefinedFilters.teamId(this.game.player.teamId),
-        (o: any) => {
+        (o: GameObject) => {
           if (o === this.game.player) return true;
           if (PredefinedFilters.includeDead(o)) return false;
           if (o.visionRadius > 0) {
@@ -148,9 +154,9 @@ export default class FogOfWar {
     });
 
     const allSightPoly: SightResult[] = [];
-    const visiblePlayers: any[] = [];
+    const visiblePlayers: AttackableUnit[] = [];
 
-    allyObjects.forEach((obj: any) => {
+    allyObjects.forEach((obj: GameObject) => {
       const { sightPoly, playersInSight } = this.calculateSightForObject(obj);
       visiblePlayers.push(...playersInSight);
       allSightPoly.push({
@@ -169,10 +175,10 @@ export default class FogOfWar {
     // is what keeps the painting side of the fog separable from the game: what
     // a unit may target is `combat/Vision.ts`'s answer, per observer, never
     // this one.
-    this.game.objectManager.objects.forEach((o: any) => {
+    this.game.objectManager.objects.forEach((o: GameObject) => {
       if (o instanceof AttackableUnit && !o.alwaysVisible) o.visibleToPlayerTeam = false;
     });
-    visiblePlayers.forEach((p: any) => (p.visibleToPlayerTeam = true));
+    visiblePlayers.forEach((p: AttackableUnit) => (p.visibleToPlayerTeam = true));
 
     if (typeof revision === 'number') {
       this.lastSightCalculation = { revision, cameraKey, result: allSightPoly };
@@ -180,9 +186,9 @@ export default class FogOfWar {
     return allSightPoly;
   }
 
-  calculateSightForObject(obj: any): {
+  calculateSightForObject(obj: GameObject): {
     sightPoly: { x: number; y: number }[];
-    playersInSight: any[];
+    playersInSight: AttackableUnit[];
   } {
     // getSightPoly recomputes the polygon at obj's live position every frame
     // (reusing the cached segment list whenever it can — see the file header
@@ -205,7 +211,7 @@ export default class FogOfWar {
       }),
       filters: [
         PredefinedFilters.type(AttackableUnit),
-        (o: any) => CollideUtils.pointPreparedConcave(o.position.x, o.position.y, sightParts),
+        (o: GameObject) => CollideUtils.pointPreparedConcave(o.position.x, o.position.y, sightParts),
       ],
     });
 
@@ -221,7 +227,7 @@ export default class FogOfWar {
   // short-circuits straight to the cached result without even querying
   // obstacles. Anything else — the unit moved, its radius changed, or this is
   // the first time we've seen it — goes through computeSightPoly.
-  getSightPoly(obj: any): { x: number; y: number }[] {
+  getSightPoly(obj: GameObject): { x: number; y: number }[] {
     const entry = this.sightCache.get(obj);
 
     if (
@@ -243,7 +249,7 @@ export default class FogOfWar {
   // what `entry` was built from (see buildObstacleSignature); the viewport
   // sweep always runs against obj's live position/radius so the returned
   // polygon is frame-accurate.
-  computeSightPoly(obj: any, entry?: SightCacheEntry): { x: number; y: number }[] {
+  computeSightPoly(obj: GameObject, entry?: SightCacheEntry): { x: number; y: number }[] {
     let obstaclesInSight = this.game.terrainMap.getObstaclesInChampionSight(obj, [
       TerrainType.WALL,
       TerrainType.BUSH,
@@ -251,7 +257,7 @@ export default class FogOfWar {
 
     // remove bushes that player is inside => player can see through that bush
     obstaclesInSight = obstaclesInSight.filter(
-      (o: any) => !CollideUtils.pointPolygon(obj.position.x, obj.position.y, o.vertices)
+      (o: Obstacle) => !CollideUtils.pointPolygon(obj.position.x, obj.position.y, o.vertices)
     );
 
     const obstacleSignature = this.buildObstacleSignature(obstaclesInSight);
@@ -306,7 +312,7 @@ export default class FogOfWar {
     const allSightPoly = this.calculateSight();
 
     allSightPoly.forEach(
-      ({ object, sightPoly }: { object: any; sightPoly: { x: number; y: number }[] }) => {
+      ({ object, sightPoly }: SightResult) => {
         const { x, y, gradient } = this.prepareRadialGradient(
           object.position.x,
           object.position.y,

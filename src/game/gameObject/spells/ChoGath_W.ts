@@ -7,6 +7,7 @@ import Spell from '@/game/gameObject/Spell';
 import SpellObject from '@/game/gameObject/SpellObject';
 import Root from '@/game/gameObject/buffs/Root';
 import Stun from '@/game/gameObject/buffs/Stun';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export default class ChoGath_W extends Spell {
   targetingMode = 'DIRECTION' as const;
@@ -50,7 +51,7 @@ export class ChoGath_W_Object extends SpellObject {
   lifeTime = 1000;
   age = 0;
 
-  playersEffected: any[] = [];
+  playersEffected: AttackableUnit[] = [];
 
   update() {
     this.age += deltaTime;
@@ -67,7 +68,7 @@ export class ChoGath_W_Object extends SpellObject {
       filters: [
         PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId),
         PredefinedFilters.excludeObjects(this.playersEffected),
-        (o: any) => {
+        (o: AttackableUnit) => {
           return CollideUtils.circleArc(
             o.position.x,
             o.position.y,

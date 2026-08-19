@@ -154,7 +154,7 @@ export class Yasuo_W_Object extends SpellObject {
       filters: [
         PredefinedFilters.missileSpellObject,
         PredefinedFilters.excludeTeamId(this.owner.teamId),
-        (o: any) => CollideUtils.pointPolygon(o.position.x, o.position.y, vertices),
+        (o: SpellObject) => CollideUtils.pointPolygon(o.position.x, o.position.y, vertices),
       ],
     });
 

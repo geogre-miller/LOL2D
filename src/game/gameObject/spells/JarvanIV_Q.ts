@@ -9,6 +9,8 @@ import CollideUtils from '@/utils/collide.utils';
 import { Circle, Rectangle } from '@/libs/quadtree';
 import TrailSystem from '@/game/gameObject/helpers/TrailSystem';
 import { PredefinedParticleSystems } from '@/game/gameObject/helpers/ParticleSystem';
+import type { JarvanIV_E_Object } from '@/game/gameObject/spells/JarvanIV_E';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export const JARVAN_Q_DAMAGE = 25;
 export const JARVAN_Q_KNOCKUP_MS = 750;
@@ -37,7 +39,7 @@ export default class JarvanIV_Q extends Spell {
     const standards = this.game.objectManager.queryObjects({
       queryByDisplayBoundingBox: true,
       filters: [
-        (o: any) =>
+        (o: JarvanIV_E_Object) =>
           o.isDemacianStandard &&
           o.owner === this.owner &&
           !o.toRemove &&
@@ -82,7 +84,7 @@ export default class JarvanIV_Q extends Spell {
 
   /** The drag itself, once the spear has connected with the standard. */
   beginCharge(flagPos: p5.Vector) {
-    const hitTargets = new Set<any>();
+    const hitTargets = new Set<AttackableUnit>();
 
     const charge = new JarvanIV_Q_ChargeObject(this.owner, flagPos.copy());
     this.game.objectManager.addObject(charge);
@@ -293,7 +295,7 @@ export class JarvanIV_Q_ChargeObject extends SpellObject {
 
   trailSystem: TrailSystem;
 
-  constructor(owner: any, target: p5.Vector) {
+  constructor(owner: AttackableUnit, target: p5.Vector) {
     super(owner);
     this.target = target;
     this.trailSystem = new TrailSystem({
