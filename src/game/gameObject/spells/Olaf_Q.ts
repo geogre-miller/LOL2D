@@ -9,6 +9,12 @@ import Spell from '@/game/gameObject/Spell';
 import MissileSpellObject from '@/game/gameObject/MissileSpellObject';
 import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
+interface AxeParticle {
+  position: p5.Vector;
+  size: number;
+  age: number;
+}
+
 export default class Olaf_Q extends Spell {
   targetingMode = 'POINT' as const;
   image = AssetManager.get('spell_olaf_q');
@@ -70,14 +76,14 @@ export class Olaf_Q_Object extends MissileSpellObject {
     trailColor: [...this.color, 100] as any,
   });
   particleSystem = new ParticleSystem({
-    getParticlePosFn: (p: any) => p.position,
-    getParticleSizeFn: (p: any) => p.size,
-    isDeadFn: (p: any) => p.age > 1000,
-    updateFn: (p: any) => {
+    getParticlePosFn: (p: AxeParticle) => p.position,
+    getParticleSizeFn: (p: AxeParticle) => p.size,
+    isDeadFn: (p: AxeParticle) => p.age > 1000,
+    updateFn: (p: AxeParticle) => {
       p.size += 1;
       p.age += deltaTime;
     },
-    drawFn: (p: any) => {
+    drawFn: (p: AxeParticle) => {
       const alpha = map(p.age, 0, 1000, 200, 0);
       stroke(200, alpha + 10);
       (fill as any)(...(this.color as [number, number, number]), alpha);

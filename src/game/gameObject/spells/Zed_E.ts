@@ -22,6 +22,13 @@ export default class Zed_E extends Spell {
   }
 }
 
+interface SwordSparkParticle {
+  position: p5.Vector;
+  velocity: p5.Vector;
+  lifeSpan: number;
+  lifeTime: number;
+}
+
 export class Zed_E_Object extends SpellObject {
   angle = 0;
   angleSpeed = 0.5;
@@ -34,14 +41,14 @@ export class Zed_E_Object extends SpellObject {
   playersEffected: any[] = [];
 
   particleSystem = new ParticleSystem({
-    getParticlePosFn: (p: any) => p.position,
+    getParticlePosFn: (p: SwordSparkParticle) => p.position,
     getParticleSizeFn: () => 10,
-    isDeadFn: (p: any) => p.lifeSpan <= 0,
-    updateFn: (p: any) => {
+    isDeadFn: (p: SwordSparkParticle) => p.lifeSpan <= 0,
+    updateFn: (p: SwordSparkParticle) => {
       p.position.add(p.velocity);
       p.lifeSpan -= deltaTime;
     },
-    drawFn: (p: any) => {
+    drawFn: (p: SwordSparkParticle) => {
       const alpha = map(p.lifeSpan, 0, p.lifeTime, 100, 255);
       stroke(255, 234, 79, alpha);
       strokeWeight(random(3, 8));

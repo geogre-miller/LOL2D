@@ -7,6 +7,7 @@ import SpellObject from '@/game/gameObject/SpellObject';
 import Stun from '@/game/gameObject/buffs/Stun';
 import TrailSystem from '@/game/gameObject/helpers/TrailSystem';
 import { acceleratedSpeed, enemyChampionsOnly, travelRamp } from '@/game/combat/GlobalShot';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export const SIZE = 35;
 export const DAMAGE = 30;
@@ -125,11 +126,11 @@ export class Ashe_R_Object extends SpellObject {
         const stunMs =
           MIN_STUN_MS +
           (MAX_STUN_MS - MIN_STUN_MS) * travelRamp(this.distanceTravelled, FULL_POWER_DISTANCE);
-        enemiesInRange.forEach((p: any) => {
-          const stunBuff = new Stun(stunMs, this.owner, p);
+        enemiesInRange.forEach((enemy: AttackableUnit) => {
+          const stunBuff = new Stun(stunMs, this.owner, enemy);
           stunBuff.buffAddType = BuffAddType.RENEW_EXISTING;
-          p.addBuff(stunBuff);
-          p.takeDamage(DAMAGE, this.owner);
+          enemy.addBuff(stunBuff);
+          enemy.takeDamage(DAMAGE, this.owner);
         });
 
         this.visionRadius = this.explodeSize;

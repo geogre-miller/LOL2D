@@ -57,6 +57,14 @@ interface Crackle {
   phase: number;
 }
 
+interface CageParticle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  r: number;
+}
+
 export class Veigar_E_Object extends SpellObject {
   position: p5.Vector = this.owner.position.copy();
   prepairTime = PREPARE_MS;
@@ -83,10 +91,10 @@ export class Veigar_E_Object extends SpellObject {
   _catchFlash = 0;
 
   particleSystem = new ParticleSystem({
-    getParticlePosFn: (p: any) => ({ x: p.x, y: p.y }),
-    getParticleSizeFn: (p: any) => p.r * 2,
-    isDeadFn: (p: any) => p.r <= 0,
-    updateFn: (p: any) => {
+    getParticlePosFn: (p: CageParticle) => ({ x: p.x, y: p.y }),
+    getParticleSizeFn: (p: CageParticle) => p.r * 2,
+    isDeadFn: (p: CageParticle) => p.r <= 0,
+    updateFn: (p: CageParticle) => {
       p.r -= 0.3;
       // motes are dragged inward — the cage is eating the space around it
       p.x += p.vx + random(-0.6, 0.6);
@@ -95,7 +103,7 @@ export class Veigar_E_Object extends SpellObject {
     preDrawFn: () => {
       noStroke();
     },
-    drawFn: (p: any) => {
+    drawFn: (p: CageParticle) => {
       const alpha = map(this.age, this.prepairTime, this.lifeTime, 210, 40);
       fill(ARCANE_BRIGHT[0], ARCANE_BRIGHT[1], ARCANE_BRIGHT[2], alpha);
       ellipse(p.x, p.y, p.r * 2, p.r * 2);

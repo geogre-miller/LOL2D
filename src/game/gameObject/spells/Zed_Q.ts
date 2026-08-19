@@ -35,6 +35,12 @@ export default class Zed_Q extends Spell {
   onUpdate() {}
 }
 
+interface ShurikenParticle {
+  position: p5.Vector;
+  size: number;
+  age: number;
+}
+
 export class Zed_Q_Object extends MissileSpellObject {
   angle = 0;
   speed = 11;
@@ -48,14 +54,14 @@ export class Zed_Q_Object extends MissileSpellObject {
     trailColor: [...this.color, 100] as any,
   });
   particleSystem = new ParticleSystem({
-    getParticlePosFn: (p: any) => p.position,
-    getParticleSizeFn: (p: any) => p.size,
-    isDeadFn: (p: any) => p.age > 1000,
-    updateFn: (p: any) => {
+    getParticlePosFn: (p: ShurikenParticle) => p.position,
+    getParticleSizeFn: (p: ShurikenParticle) => p.size,
+    isDeadFn: (p: ShurikenParticle) => p.age > 1000,
+    updateFn: (p: ShurikenParticle) => {
       p.size += 1;
       p.age += deltaTime;
     },
-    drawFn: (p: any) => {
+    drawFn: (p: ShurikenParticle) => {
       const alpha = map(p.age, 0, 1000, 200, 0);
       stroke(200, alpha + 10);
       (fill as any)(...(this.color as [number, number, number]), alpha);

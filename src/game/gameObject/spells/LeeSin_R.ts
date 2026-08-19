@@ -11,6 +11,13 @@ import Stun from '@/game/gameObject/buffs/Stun';
 import ParticleSystem from '@/game/gameObject/helpers/ParticleSystem';
 import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
+interface KickSparkParticle {
+  position: p5.Vector;
+  velocity: p5.Vector;
+  lifeSpan: number;
+  lifeTime: number;
+}
+
 export default class LeeSin_R extends Spell {
   // Auto-locks its own target; see "auto-locking spells" in docs/ADDING_SPELLS.md.
   targetingMode = 'SELF' as const;
@@ -96,14 +103,14 @@ export default class LeeSin_R extends Spell {
     closestEnemyToMouse.takeDamage(this.damage, this.owner);
 
     const particleSystem = new ParticleSystem({
-      getParticlePosFn: (p: any) => p.position,
-      getParticleSizeFn: (p: any) => 10,
-      isDeadFn: (p: any) => p.lifeSpan <= 0,
-      updateFn: (p: any) => {
+      getParticlePosFn: (p: KickSparkParticle) => p.position,
+      getParticleSizeFn: (p: KickSparkParticle) => 10,
+      isDeadFn: (p: KickSparkParticle) => p.lifeSpan <= 0,
+      updateFn: (p: KickSparkParticle) => {
         p.position.add(p.velocity);
         p.lifeSpan -= deltaTime;
       },
-      drawFn: (p: any) => {
+      drawFn: (p: KickSparkParticle) => {
         const alpha = map(p.lifeSpan, 0, p.lifeTime, 100, 255);
         stroke(255, 234, 79, alpha);
         strokeWeight(random(3, 8));

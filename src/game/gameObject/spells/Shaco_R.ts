@@ -7,6 +7,11 @@ import Fear from '@/game/gameObject/buffs/Fear';
 import ParticleSystem from '@/game/gameObject/helpers/ParticleSystem';
 import { ATTACK_DAMAGE, ATTACK_RANGE, Shaco_W_Box } from './Shaco_W';
 
+interface ExplosionParticle {
+  pos: p5.Vector;
+  vel: p5.Vector;
+}
+
 export default class Shaco_R extends Spell {
   targetingMode = 'POINT' as const;
   image = AssetManager.get('spell_shaco_r');
@@ -115,10 +120,10 @@ class Shaco_R_Clone extends Pet {
 
     // create explosion
     const explodeEffect = new ParticleSystem({
-      getParticlePosFn: (p: any) => p.pos,
-      getParticleSizeFn: (p: any) => 20,
-      isDeadFn: (p: any) => p.pos.dist(clonePos) > explodeRadius,
-      updateFn: (p: any) => {
+      getParticlePosFn: (p: ExplosionParticle) => p.pos,
+      getParticleSizeFn: (p: ExplosionParticle) => 20,
+      isDeadFn: (p: ExplosionParticle) => p.pos.dist(clonePos) > explodeRadius,
+      updateFn: (p: ExplosionParticle) => {
         p.pos.add(p.vel);
       },
       preDrawFn: () => {
@@ -126,7 +131,7 @@ class Shaco_R_Clone extends Pet {
         stroke(100, 150);
         circle(clonePos.x, clonePos.y, explodeRadius * 2);
       },
-      drawFn: (p: any) => {
+      drawFn: (p: ExplosionParticle) => {
         // draw lazer beam from clone to explosion
         const alpha = map(p.pos.dist(clonePos), 0, explodeRadius, 200, 10);
         stroke(255, 255, 50, alpha);
