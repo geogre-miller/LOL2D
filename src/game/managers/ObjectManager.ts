@@ -38,6 +38,8 @@ const hasTargetableProperty = (object: GameObject): object is TargetableGameObje
 
 // Explicit slots keep the Champion gap even though importing Champion here
 // would create a circular dependency through its targeting filters.
+// Keyed by o.constructor, which TS types as Function; used only for identity, never called.
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 const Z_INDEX_MAP = new Map<Function, number>([
   [TrailSystem, 0],
   [ParticleSystem, 1],

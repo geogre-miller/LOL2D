@@ -95,27 +95,26 @@ export default class SceneManager {
   // Wire relevant p5.js events, except setup()
   // If you don't call this method, you need to manually wire events
   wire(): this {
-    const me = this;
     const p5 = typeof this.p5 !== 'undefined' ? this.p5 : (window as any);
 
     // Wire draw manually for speed reasons...
-    p5.draw = function () {
-      me.draw();
+    p5.draw = () => {
+      this.draw();
     };
 
     // This loop will wire automatically all P5 events to each scene like this:
-    // p5.mouseClicked = function() { me.handleEvent("mouseClicked"); }
+    // p5.mouseClicked = () => this.handleEvent("mouseClicked")
     for (let i = 0; i < P5Events.length; i++) {
       const sEvent = P5Events[i];
       // The scene's answer is returned rather than swallowed: p5 reads `false`
       // from a touch handler as "call preventDefault", which is the only way to
       // stop a drag across the canvas scrolling and pinch-zooming the page.
-      p5[sEvent] = function (...args: any[]) {
-        return me.handleEvent(sEvent, args);
+      p5[sEvent] = (...args: any[]) => {
+        return this.handleEvent(sEvent, args);
       };
     }
 
-    return me;
+    return this;
   }
 
   // Add a scene to the collection

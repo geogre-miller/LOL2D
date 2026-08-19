@@ -60,7 +60,7 @@ const champion = (teamId: string, x: number, y = 0): Champion => {
   // `getDisplayBoundingBox` reads `isAllied`, which reads `game.player`, so the
   // fixture's world needs one before anything can be indexed.
   try {
-    game.player;
+    void game.player;
   } catch {
     game.setPlayer(unit);
   }

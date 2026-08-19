@@ -1,7 +1,6 @@
 // https://status.peerjs.com/
 
- 
-// @ts-ignore - PeerJS loaded via CDN
+// PeerJS loaded via CDN — `any` is the type, not a suppressed error.
 type Peer = any;
 
 interface PeerConnection {
@@ -25,7 +24,7 @@ export default class PeerManager {
   onConnected(id: string): void {}
 
   init(): void {
-    // @ts-ignore - PeerJS loaded via CDN
+    // @ts-expect-error - PeerJS loaded via CDN
     this.peer = new Peer(null, {
       pingInterval: 1000,
       debug: 2, // 0 Prints no logs. 1 Prints only errors. 2 Prints errors and warnings. 3 Prints all logs.

@@ -46,6 +46,7 @@ declare namespace p5 {
   interface Color {
     setAlpha(a: number): p5.Color;
   }
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type -- ambient merge point for p5.Image, referenced as a type elsewhere
   interface Image {}
   interface Element {
     elt: HTMLElement;
