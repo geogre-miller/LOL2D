@@ -9,6 +9,7 @@ import SpellObject from '@/game/gameObject/SpellObject';
 import BuffAddType from '@/game/enums/BuffAddType';
 import Dash from '@/game/gameObject/buffs/Dash';
 import Untargetable from '@/game/gameObject/buffs/Untargetable';
+import AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 import { Zed_W_Clone } from './Zed_W';
 
 /** Bruised purple, so the mark does not read as a normal burn. */
@@ -127,10 +128,10 @@ export default class Zed_R extends Spell {
       position,
       teamId: this.owner.teamId,
       avatar: this.owner.avatar,
-    } as any);
+    });
     shadow.owner = this.owner;
     // marks this spell as the source, so the shadow never mimics R back at us
-    shadow.spellSource = this as any;
+    shadow.spellSource = this;
     shadow.destination = position.copy(); // spawns in place instead of dashing out
     shadow.lifeTime = this.shadowDuration;
     this.game.objectManager.addObject(shadow);
@@ -163,7 +164,7 @@ export default class Zed_R extends Spell {
   }
 
   /** Nearest damageable enemy within `range`, or null. */
-  _findTarget(): any {
+  _findTarget(): AttackableUnit | null {
     const enemies = this.game.objectManager.queryObjects({
       area: new Circle({
         x: this.owner.position.x,
@@ -176,9 +177,10 @@ export default class Zed_R extends Spell {
       ],
     });
 
-    let nearest: any = null;
+    let nearest: AttackableUnit | null = null;
     let nearestDistance = Infinity;
     for (const enemy of enemies) {
+      if (!(enemy instanceof AttackableUnit)) continue;
       const d = this.owner.position.dist(enemy.position);
       if (d < nearestDistance) {
         nearest = enemy;
@@ -209,12 +211,13 @@ export class Zed_R_Mark extends Buff {
   _detonated = false;
 
   /** True for Zed himself and for anything he owns (his shadows). */
-  _isFromZed(attacker: any): boolean {
+  _isFromZed(attacker?: AttackableUnit): boolean {
     if (!attacker || !this.sourceUnit) return false;
-    return attacker === this.sourceUnit || attacker.owner === this.sourceUnit;
+    if (attacker === this.sourceUnit) return true;
+    return attacker instanceof Zed_W_Clone && attacker.owner === this.sourceUnit;
   }
 
-  modifyIncomingDamage(damage: number, attacker: any): number {
+  modifyIncomingDamage(damage: number, attacker?: AttackableUnit): number {
     if (!this._detonated && damage > 0 && this._isFromZed(attacker)) {
       this.storedDamage += damage * this.storePercent;
     }
@@ -310,7 +313,7 @@ export class Zed_R_Detonation extends SpellObject {
 /** The death-mark rune spinning over the victim while the mark lasts. */
 export class Zed_R_Object extends SpellObject {
   position = this.owner.position.copy();
-  target: any = null;
+  target: AttackableUnit | null = null;
   mark: Zed_R_Mark | null = null;
   lifeTime = 3000;
   age = 0;

@@ -87,7 +87,7 @@ export class Zed_W_Clone extends Champion {
   _pendingSpellIds: { id: string; context: CastContext }[] = [];
   _reachedDestination = false;
   swapable = true;
-  spellSource: Zed_W | null = null;
+  spellSource: Spell | null = null;
 
   smokeEffect = PredefinedParticleSystems.smoke([150], 2, 10);
 
