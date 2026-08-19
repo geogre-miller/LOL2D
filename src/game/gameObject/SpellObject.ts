@@ -98,7 +98,8 @@ export default class SpellObject extends GameObject {
   }
 
   /** Particle systems whose lifetime this effect has taken responsibility for. */
-  _ownedParticles: ParticleSystem[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- ownership list holds every particle shape; `unknown` breaks variance against callers' concrete P (see useParticles below)
+  _ownedParticles: ParticleSystem<any>[] = [];
 
   /**
    * Registers a particle system for the whole of this effect's life, instead of
@@ -118,7 +119,8 @@ export default class SpellObject extends GameObject {
    *   particleSystem = PredefinedParticleSystems.smoke([150, 115, 65]);
    *   onAdded() { this.useParticles(this.particleSystem); }
    */
-  useParticles<T extends ParticleSystem>(system: T): T {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- see _ownedParticles
+  useParticles<T extends ParticleSystem<any>>(system: T): T {
     system.autoRemoveIfEmpty = false;
     this._ownedParticles.push(system);
     this.game.objectManager.addObject(system);

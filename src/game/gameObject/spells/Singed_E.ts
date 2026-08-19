@@ -8,7 +8,7 @@ import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUni
 import Airborne from '@/game/gameObject/buffs/Airborne';
 import Dash from '@/game/gameObject/buffs/Dash';
 import Slow from '@/game/gameObject/buffs/Slow';
-import ParticleSystem, { PredefinedParticleSystems } from '@/game/gameObject/helpers/ParticleSystem';
+import { PredefinedParticleSystems } from '@/game/gameObject/helpers/ParticleSystem';
 
 export const RANGE = 160;
 export const DAMAGE = 28;
@@ -149,7 +149,7 @@ export class Singed_E_Impact extends SpellObject {
   age = 0;
 
   _gouts: Gout[] = [];
-  particleSystem: ParticleSystem = PredefinedParticleSystems.smoke([132, 214, 88], 0.55, 3);
+  particleSystem = PredefinedParticleSystems.smoke([132, 214, 88], 0.55, 3);
 
   onAdded() {
     this.game.objectManager.addObject(this.particleSystem);

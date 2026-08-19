@@ -6,7 +6,7 @@ import Spell from '@/game/gameObject/Spell';
 import SpellObject from '@/game/gameObject/SpellObject';
 import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 import Slow from '@/game/gameObject/buffs/Slow';
-import ParticleSystem, { PredefinedParticleSystems } from '@/game/gameObject/helpers/ParticleSystem';
+import { PredefinedParticleSystems } from '@/game/gameObject/helpers/ParticleSystem';
 
 export const RANGE = 150;
 export const DAMAGE = 20;
@@ -79,7 +79,7 @@ export class LeeSin_E_Object extends SpellObject {
   _marks: KiMark[] = [];
   _clods: Clod[] = [];
 
-  particleSystem: ParticleSystem = PredefinedParticleSystems.smoke([214, 168, 92], 0.45, 4);
+  particleSystem = PredefinedParticleSystems.smoke([214, 168, 92], 0.45, 4);
 
   onAdded() {
     this.game.objectManager.addObject(this.particleSystem);

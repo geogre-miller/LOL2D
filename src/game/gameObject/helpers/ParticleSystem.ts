@@ -1,39 +1,39 @@
 import { Rectangle } from '@/libs/quadtree';
 import GameObject from '@/game/gameObject/GameObject';
 
-interface ParticleSystemOptions {
-  isDeadFn: (particle: any) => boolean;
-  preUpdateFn?: (particles: any[]) => void;
-  updateFn?: (particle: any) => void;
-  postUpdateFn?: (particles: any[]) => void;
-  preDrawFn?: (particles: any[]) => void;
-  drawFn?: (particle: any) => void;
-  postDrawFn?: (particles: any[]) => void;
-  getParticlePosFn?: (particle: any) => { x: number; y: number };
-  getParticleSizeFn?: (particle: any) => number;
+interface ParticleSystemOptions<P> {
+  isDeadFn: (particle: P) => boolean;
+  preUpdateFn?: (particles: P[]) => void;
+  updateFn?: (particle: P) => void;
+  postUpdateFn?: (particles: P[]) => void;
+  preDrawFn?: (particles: P[]) => void;
+  drawFn?: (particle: P) => void;
+  postDrawFn?: (particles: P[]) => void;
+  getParticlePosFn?: (particle: P) => { x: number; y: number };
+  getParticleSizeFn?: (particle: P) => number;
   maxParticles?: number;
   autoRemoveIfEmpty?: boolean;
   owner?: GameObject;
 }
 
-export default class ParticleSystem extends GameObject {
+export default class ParticleSystem<P = unknown> extends GameObject {
   owner?: GameObject;
-  particles: any[] = [];
+  particles: P[] = [];
   _cachedBB: Rectangle | null = null;
 
-  isDeadFn: (particle: any) => boolean;
-  preUpdateFn?: (particles: any[]) => void;
-  updateFn?: (particle: any) => void;
-  postUpdateFn?: (particles: any[]) => void;
-  preDrawFn?: (particles: any[]) => void;
-  drawFn?: (particle: any) => void;
-  postDrawFn?: (particles: any[]) => void;
-  getParticlePosFn?: (particle: any) => { x: number; y: number };
-  getParticleSizeFn?: (particle: any) => number;
+  isDeadFn: (particle: P) => boolean;
+  preUpdateFn?: (particles: P[]) => void;
+  updateFn?: (particle: P) => void;
+  postUpdateFn?: (particles: P[]) => void;
+  preDrawFn?: (particles: P[]) => void;
+  drawFn?: (particle: P) => void;
+  postDrawFn?: (particles: P[]) => void;
+  getParticlePosFn?: (particle: P) => { x: number; y: number };
+  getParticleSizeFn?: (particle: P) => number;
   maxParticles: number;
   autoRemoveIfEmpty: boolean;
 
-  constructor(options: ParticleSystemOptions) {
+  constructor(options: ParticleSystemOptions<P>) {
     const {
       isDeadFn,
       preUpdateFn,
@@ -68,7 +68,7 @@ export default class ParticleSystem extends GameObject {
     this.autoRemoveIfEmpty = autoRemoveIfEmpty;
   }
 
-  addParticle(particle: any): void {
+  addParticle(particle: P): void {
     this.particles.push(particle);
     if (this.particles.length > this.maxParticles) {
       this.particles.shift();
@@ -170,7 +170,7 @@ interface RandomMovingParticle {
 }
 
 export const PredefinedParticleSystems = {
-  randomMovingParticlesDecreaseSize: (colour = '#77f9', decreaseSizeSpeed = 0.2): ParticleSystem =>
+  randomMovingParticlesDecreaseSize: (colour = '#77f9', decreaseSizeSpeed = 0.2): ParticleSystem<RandomMovingParticle> =>
     new ParticleSystem({
       getParticlePosFn: (p: RandomMovingParticle) => ({ x: p.x, y: p.y }),
       getParticleSizeFn: (p: RandomMovingParticle) => p.r * 2,
@@ -189,7 +189,7 @@ export const PredefinedParticleSystems = {
       },
     }),
 
-  ripple: (): ParticleSystem =>
+  ripple: (): ParticleSystem<RippleParticle> =>
     new ParticleSystem({
       getParticlePosFn: (p: RippleParticle) => ({ x: p.x, y: p.y }),
       getParticleSizeFn: (p: RippleParticle) => p.r * 2,
@@ -211,7 +211,7 @@ export const PredefinedParticleSystems = {
     colour: number[] = [255, 255, 100],
     spreadSpeed = 0.1,
     opacitySpeed = 2
-  ): ParticleSystem =>
+  ): ParticleSystem<SmokeParticle> =>
     new ParticleSystem({
       getParticlePosFn: (p: SmokeParticle) => ({ x: p.x, y: p.y }),
       getParticleSizeFn: (p: SmokeParticle) => p.size,
@@ -229,7 +229,7 @@ export const PredefinedParticleSystems = {
       },
     }),
 
-  heal: (colour: number[] = [0, 255, 0], size = 5, lifeTime = 1000): ParticleSystem =>
+  heal: (colour: number[] = [0, 255, 0], size = 5, lifeTime = 1000): ParticleSystem<HealParticle> =>
     new ParticleSystem({
       getParticlePosFn: (p: HealParticle) => ({ x: p.x, y: p.y }),
       getParticleSizeFn: () => size * 2,
