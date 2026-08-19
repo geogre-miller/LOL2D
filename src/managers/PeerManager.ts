@@ -1,22 +1,30 @@
 // https://status.peerjs.com/
 
-// PeerJS loaded via CDN — `any` is the type, not a suppressed error.
-type Peer = any;
+/**
+ * Shape of a PeerJS `Peer`/`DataConnection`, loaded via CDN with no shipped
+ * types. `on`'s handler is generic per call rather than `any[]`, so each
+ * event keeps the param type its own listener declares (`id: string`,
+ * `conn: PeerConnection`, ...) instead of widening every listener to `any`.
+ */
+interface PeerInstance {
+  on<Args extends unknown[]>(event: string, handler: (...args: Args) => void): void;
+  connect(peerId: string): PeerConnection;
+}
 
 interface PeerConnection {
-  on(event: string, handler: (...args: any[]) => void): void;
-  send(data: any): void;
+  on<Args extends unknown[]>(event: string, handler: (...args: Args) => void): void;
+  send(data: unknown): void;
   close(): void;
   peer: string;
 }
 
 export default class PeerManager {
-  game: any;
+  game: unknown;
   peers: Record<string, PeerConnection> = {};
-  peer!: Peer;
+  peer!: PeerInstance;
   id?: string;
 
-  constructor(game: any) {
+  constructor(game: unknown) {
     this.game = game;
     this.init();
   }
@@ -52,7 +60,7 @@ export default class PeerManager {
   }
 
   conn(conn: PeerConnection): void {
-    conn.on('error', (err: any) => {
+    conn.on('error', (err: unknown) => {
       console.log('Connection error', err);
       delete this.peers[conn.peer];
     });
@@ -62,7 +70,7 @@ export default class PeerManager {
 
       this.syncData(conn);
 
-      conn.on('data', (data: any) => {
+      conn.on('data', (data: unknown) => {
         this.syncDataFromOther(conn, data);
       });
 
@@ -70,7 +78,7 @@ export default class PeerManager {
         delete this.peers[conn.peer];
       });
 
-      conn.on('error', (err: any) => {
+      conn.on('error', (err: unknown) => {
         console.log('Connection error', err);
         delete this.peers[conn.peer];
       });
@@ -85,7 +93,7 @@ export default class PeerManager {
     });
   }
 
-  syncDataFromOther(conn: PeerConnection, data: any): void {
+  syncDataFromOther(conn: PeerConnection, data: unknown): void {
     // TODO: sync data
     console.log(data);
   }
