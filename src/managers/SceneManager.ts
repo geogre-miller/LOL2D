@@ -23,10 +23,10 @@ const P5Events: string[] = [
 
 export class Scene {
   sceneManager: SceneManager;
-  p5: any;
-  sceneArgs?: any;
+  p5: unknown;
+  sceneArgs?: unknown;
 
-  constructor(sceneManager: SceneManager, p5?: any) {
+  constructor(sceneManager: SceneManager, p5?: unknown) {
     this.sceneManager = sceneManager;
     this.p5 = p5;
   }
@@ -61,7 +61,7 @@ export class Scene {
   mouseMoved(): void {}
   mouseDragged(): void {}
   doubleClicked(): void {}
-  mouseWheel(e: any): void {}
+  mouseWheel(e: unknown): void {}
   keyPressed(): void {}
   keyReleased(): void {}
   keyTyped(): void {}
@@ -74,8 +74,14 @@ export class Scene {
   windowResized(): void {}
 }
 
+/** Every place this file takes "a Scene subclass" rather than an instance. */
+type SceneCtor = new (sceneManager: SceneManager, p5?: unknown) => Scene;
+
+/** The object whose lifecycle slots (`draw`, `mouseClicked`, ...) get overwritten in `wire()`. */
+type P5Host = Record<string, unknown>;
+
 interface SceneContainer {
-  fnScene: new (sceneManager: SceneManager, p5?: any) => Scene;
+  fnScene: SceneCtor;
   oScene: Scene;
   hasSetup: boolean;
   hasEnter: boolean;
@@ -86,16 +92,16 @@ interface SceneContainer {
 export default class SceneManager {
   scenes: SceneContainer[] = [];
   scene: SceneContainer | null = null;
-  p5: any;
+  p5: unknown;
 
-  constructor(p5?: any) {
+  constructor(p5?: unknown) {
     this.p5 = p5;
   }
 
   // Wire relevant p5.js events, except setup()
   // If you don't call this method, you need to manually wire events
   wire(): this {
-    const p5 = typeof this.p5 !== 'undefined' ? this.p5 : (window as any);
+    const p5 = (typeof this.p5 !== 'undefined' ? this.p5 : window) as P5Host;
 
     // Wire draw manually for speed reasons...
     p5.draw = () => {
@@ -109,7 +115,7 @@ export default class SceneManager {
       // The scene's answer is returned rather than swallowed: p5 reads `false`
       // from a touch handler as "call preventDefault", which is the only way to
       // stop a drag across the canvas scrolling and pinch-zooming the page.
-      p5[sEvent] = (...args: any[]) => {
+      p5[sEvent] = (...args: unknown[]) => {
         return this.handleEvent(sEvent, args);
       };
     }
@@ -119,7 +125,7 @@ export default class SceneManager {
 
   // Add a scene to the collection
   // You need to add all the scenes if intend to call .showNextScene()
-  addScene(fnScene: new (sceneManager: SceneManager, p5?: any) => Scene): SceneContainer {
+  addScene(fnScene: SceneCtor): SceneContainer {
     const oScene = new fnScene(this, this.p5);
 
     // create scene container
@@ -141,7 +147,7 @@ export default class SceneManager {
   }
 
   // Return the index of a scene in the internal collection
-  findSceneIndex(fnScene: new (sceneManager: SceneManager, p5?: any) => Scene): number {
+  findSceneIndex(fnScene: SceneCtor): number {
     for (let i = 0; i < this.scenes.length; i++) {
       const o = this.scenes[i];
       if (o.fnScene === fnScene) return i;
@@ -150,13 +156,13 @@ export default class SceneManager {
   }
 
   // Return a scene object wrapper
-  findScene(fnScene: new (sceneManager: SceneManager, p5?: any) => Scene): SceneContainer | null {
+  findScene(fnScene: SceneCtor): SceneContainer | null {
     const i = this.findSceneIndex(fnScene);
     return i >= 0 ? this.scenes[i] : null;
   }
 
   // Returns true if the current displayed scene is fnScene
-  isCurrent(fnScene: new (sceneManager: SceneManager, p5?: any) => Scene): boolean {
+  isCurrent(fnScene: SceneCtor): boolean {
     if (this.scene === null) return false;
     return this.scene.fnScene === fnScene;
   }
@@ -164,7 +170,7 @@ export default class SceneManager {
   // Show a scene based on the function name
   // Optionally you can send arguments to the scene
   // Arguments will be retrieved in the scene via .sceneArgs property
-  showScene(fnScene: new (sceneManager: SceneManager, p5?: any) => Scene, sceneArgs?: any): void {
+  showScene(fnScene: SceneCtor, sceneArgs?: unknown): void {
     let o = this.findScene(fnScene);
 
     if (o === null) o = this.addScene(fnScene);
@@ -185,7 +191,7 @@ export default class SceneManager {
   // Show the next scene in the collection
   // Useful if implementing demo applications
   // where you want to advance scenes automatically
-  showNextScene(sceneArgs?: any): void {
+  showNextScene(sceneArgs?: unknown): void {
     if (this.scenes.length === 0) return;
 
     let nextSceneIndex = 0;
@@ -215,11 +221,13 @@ export default class SceneManager {
 
   // Handle a certain even for a scene...
   // It is used by the anonymous functions from the wire() function
-  handleEvent(sEvent: string, args: any[]): any {
+  handleEvent(sEvent: string, args: unknown[]): unknown {
     if (this.scene === null || this.scene.oScene === null) return undefined;
 
-    const fnSceneEvent = (this.scene.oScene as any)[sEvent];
-    return fnSceneEvent ? fnSceneEvent.apply(this.scene.oScene, args) : undefined;
+    const fnSceneEvent = (this.scene.oScene as unknown as Record<string, unknown>)[sEvent];
+    return typeof fnSceneEvent === 'function'
+      ? fnSceneEvent.apply(this.scene.oScene, args)
+      : undefined;
   }
 
   // Legacy method... preserved for maintaining compatibility
