@@ -25,8 +25,8 @@ const emit = defineEmits<{
     <h2>Tướng Địch (AI)</h2>
     <label class="pregame-toggle">
       <input
-        type="checkbox"
         id="pregame-ai-automove"
+        type="checkbox"
         :checked="autoMove"
         @change="emit('update:autoMove', ($event.target as HTMLInputElement).checked)"
       />
@@ -34,8 +34,8 @@ const emit = defineEmits<{
     </label>
     <label class="pregame-toggle">
       <input
-        type="checkbox"
         id="pregame-ai-autoattack"
+        type="checkbox"
         :checked="autoAttack"
         @change="emit('update:autoAttack', ($event.target as HTMLInputElement).checked)"
       />
@@ -43,8 +43,8 @@ const emit = defineEmits<{
     </label>
     <label class="pregame-toggle">
       <input
-        type="checkbox"
         id="pregame-ai-autocast"
+        type="checkbox"
         :checked="autoCast"
         @change="emit('update:autoCast', ($event.target as HTMLInputElement).checked)"
       />

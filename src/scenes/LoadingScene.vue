@@ -51,7 +51,7 @@ defineExpose({
      no stylesheet had to move with this conversion. -->
 <template>
   <img id="loading-logo" class="logo" :src="logo" alt="" />
-  <div class="progress" v-show="showProgress">
+  <div v-show="showProgress" class="progress">
     <div class="progress-bar" :style="{ width: progress + '%' }"></div>
   </div>
   <div class="loading-text">{{ message }}</div>

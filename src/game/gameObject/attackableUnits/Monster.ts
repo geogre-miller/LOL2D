@@ -412,8 +412,8 @@ export default class Monster extends AttackableUnit {
   drawDir() {
     // the base draws a pointer at the mouse; a monster points at what it is hitting
     if (this.targetLock?.position && !this.isDead) {
-      let pos = this.position;
-      let { displaySize: size, alpha } = this.animatedValues;
+      const pos = this.position;
+      const { displaySize: size, alpha } = this.animatedValues;
 
       const target = p5.Vector.sub(this.targetLock.position, pos);
       if (target.magSq() === 0) return;

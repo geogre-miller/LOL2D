@@ -267,12 +267,12 @@ export default class Champion extends AttackableUnit {
   }
 
   drawHealthBar(compact = false) {
-    let pos = this.position;
-    let { displaySize: size, alpha } = this.animatedValues;
-    let health = this.stats.health.value;
-    let maxHealth = this.stats.maxHealth.value;
-    let mana = this.stats.mana.value;
-    let maxMana = this.stats.maxMana.value;
+    const pos = this.position;
+    const { displaySize: size, alpha } = this.animatedValues;
+    const health = this.stats.health.value;
+    const maxHealth = this.stats.maxHealth.value;
+    const mana = this.stats.mana.value;
+    const maxMana = this.stats.maxMana.value;
 
     // At minimum mobile zoom a champion body is only ~10–15 screen pixels, but
     // the normal health frame deliberately stays 125px and also paints score,
@@ -325,7 +325,7 @@ export default class Champion extends AttackableUnit {
     // Overlay, not world: the whole frame — bar, ticks, buff icons and their
     // text — compensates for the camera scale together. See Camera.constantSize.
     const k = this.game?.camera?.constantSize?.(1) ?? 1;
-    let borderWidth = 3 * k,
+    const borderWidth = 3 * k,
       barWidth = 125 * k,
       barHeight = 17 * k,
       manaHeight = 5 * k;

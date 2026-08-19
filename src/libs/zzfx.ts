@@ -26,7 +26,7 @@ export interface ZzfxParams {
   tremolo?: number;
 }
 
-let zzfxV = 0.3; // volume
+const zzfxV = 0.3; // volume
 const zzfxR = 44100; // sample rate
 let zzfxX: AudioContext | null = null;
 
@@ -66,7 +66,7 @@ const zzfxG = (
   const startSlide = (slide *= (500 * PI2) / zzfxR / zzfxR);
   let startFrequency = (frequency *=
     ((1 + randomness * 2 * Math.random() - randomness) * PI2) / zzfxR);
-  let b: number[] = [];
+  const b: number[] = [];
   let t = 0;
   let tm = 0;
   let i = 0;

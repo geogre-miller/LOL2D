@@ -23,23 +23,23 @@ export default class Ashe_W extends Spell {
   coolDown = 5000;
 
   onSpellCast() {
-    let mouse = this.aimPoint;
-    let direction = mouse.sub(this.owner.position).normalize();
+    const mouse = this.aimPoint;
+    const direction = mouse.sub(this.owner.position).normalize();
 
-    let arrowCount = 15;
-    let arrowLength = 500;
-    let angle = direction.heading();
-    let angleStep = Math.PI / (arrowCount * 2);
+    const arrowCount = 15;
+    const arrowLength = 500;
+    const angle = direction.heading();
+    const angleStep = Math.PI / (arrowCount * 2);
 
     for (let i = 0; i < arrowCount; i++) {
-      let _angle = angle - (angleStep * arrowCount) / 2 + angleStep * i;
-      let { from, to } = VectorUtils.getVectorWithAngleAndRange(
+      const _angle = angle - (angleStep * arrowCount) / 2 + angleStep * i;
+      const { from, to } = VectorUtils.getVectorWithAngleAndRange(
         this.owner.position,
         _angle,
         arrowLength
       );
 
-      let obj = new Ashe_W_Object(this.owner);
+      const obj = new Ashe_W_Object(this.owner);
       obj.position = from;
       obj.destination = to;
       obj.direction = p5.Vector.fromAngle(_angle);
@@ -80,7 +80,7 @@ export class Ashe_W_Object extends MissileSpellObject {
   }
 
   onHit(enemy: any) {
-    let slowBuff = new Slow(1500, this.owner, enemy);
+    const slowBuff = new Slow(1500, this.owner, enemy);
     slowBuff.percent = 0.75;
     slowBuff.buffAddType = BuffAddType.RENEW_EXISTING;
     enemy.addBuff(slowBuff);

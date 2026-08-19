@@ -72,9 +72,9 @@ defineExpose({
   <button
     v-if="!hud.showSpellsPicker"
     class="corner-btn spell-picker-btn"
+    title="Bảng luyện tập"
     @click="hud.openSpellPicker()"
     @touchend.prevent="hud.openSpellPicker()"
-    title="Bảng luyện tập"
   >
     <i class="fa-solid fa-wand-magic-sparkles"></i>
   </button>

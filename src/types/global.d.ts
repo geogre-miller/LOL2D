@@ -74,7 +74,7 @@ declare module 'p5' {
 }
 
 // Augment Array prototype with optimized methods
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 interface Array<T> {
   forEach(callbackfn: (value: T, index: number) => void): void;
   map<U>(callbackfn: (value: T, index: number) => U): U[];

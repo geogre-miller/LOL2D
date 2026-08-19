@@ -48,9 +48,9 @@ const setTargetPriority = (priority: TouchTargetPriority): void => {
     <div class="input-mode-row" role="group" aria-label="Chế độ điều khiển">
       <button
         v-for="option of OPTIONS"
+        :id="'pregame-input-mode-' + option.value"
         :key="option.value"
         type="button"
-        :id="'pregame-input-mode-' + option.value"
         class="input-mode-btn"
         :class="{ selected: mode === option.value }"
         :aria-pressed="mode === option.value"

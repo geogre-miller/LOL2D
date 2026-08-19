@@ -36,13 +36,13 @@ export default class Teemo_R extends Spell {
   coolDown = 3000;
 
   onSpellCast() {
-    let { from, to } = VectorUtils.getVectorWithMaxRange(
+    const { from, to } = VectorUtils.getVectorWithMaxRange(
       this.owner.position,
       this.aimPoint,
       THROW_RANGE
     );
 
-    let obj = new Teemo_R_Object(this.owner);
+    const obj = new Teemo_R_Object(this.owner);
     obj.position = from;
     obj.destination = to;
     obj.invisibleAfter = INVISIBLE_AFTER_MS;
@@ -162,7 +162,7 @@ export class Teemo_R_Object extends SpellObject {
 
       if (this.position.dist(this.destination) < this.moveSpeed) {
         // check collide with other teemo R
-        let others = this.game.objectManager.queryObjects({
+        const others = this.game.objectManager.queryObjects({
           area: new Circle({
             x: this.destination.x,
             y: this.destination.y,
@@ -206,7 +206,7 @@ export class Teemo_R_Object extends SpellObject {
 
       if (this.age > this.invisibleAfter) {
         // check collide with enemy
-        let enemies = this.game.objectManager.queryObjects({
+        const enemies = this.game.objectManager.queryObjects({
           area: new Circle({
             x: this.position.x,
             y: this.position.y,
@@ -215,9 +215,9 @@ export class Teemo_R_Object extends SpellObject {
           filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
         });
 
-        let enemyStepIn = enemies?.[0];
+        const enemyStepIn = enemies?.[0];
         if (enemyStepIn) {
-          let enemiesInRange = this.game.objectManager.queryObjects({
+          const enemiesInRange = this.game.objectManager.queryObjects({
             area: new Circle({
               x: this.position.x,
               y: this.position.y,
@@ -227,7 +227,7 @@ export class Teemo_R_Object extends SpellObject {
           });
 
           enemiesInRange.forEach((enemy: any) => {
-            let slowBuff = new Slow(SLOW_MS, this.owner, enemy);
+            const slowBuff = new Slow(SLOW_MS, this.owner, enemy);
             slowBuff.buffAddType = BuffAddType.RENEW_EXISTING;
             slowBuff.percent = SLOW_PERCENT;
             enemy.addBuff(slowBuff);
@@ -276,7 +276,7 @@ export class Teemo_R_Object extends SpellObject {
       this.phase === Teemo_R_Object.PHASES.MOVING ||
       this.phase === Teemo_R_Object.PHASES.INVISIBLE
     ) {
-      let alpha =
+      const alpha =
         this.phase === Teemo_R_Object.PHASES.INVISIBLE && this.age > this.invisibleAfter ? 25 : 255;
       push();
       stroke(150, alpha);
@@ -286,9 +286,9 @@ export class Teemo_R_Object extends SpellObject {
 
       noStroke();
       fill(114, 63, 127, alpha);
-      for (let spot of this.mushroom_spots) {
-        let x = spot.x * cos(this.angle) - spot.y * sin(this.angle);
-        let y = spot.x * sin(this.angle) + spot.y * cos(this.angle);
+      for (const spot of this.mushroom_spots) {
+        const x = spot.x * cos(this.angle) - spot.y * sin(this.angle);
+        const y = spot.x * sin(this.angle) + spot.y * cos(this.angle);
         circle(this.position.x + x, this.position.y + y, spot.r);
       }
 

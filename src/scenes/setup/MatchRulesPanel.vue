@@ -25,8 +25,8 @@ const onCdrInput = (event: Event): void => {
         <strong id="pregame-cdr-value">{{ cooldownReductionPercent }}%</strong></span
       >
       <input
-        type="range"
         id="pregame-cdr"
+        type="range"
         :min="CDR_PERCENT_MIN"
         :max="CDR_PERCENT_MAX"
         step="10"
@@ -36,8 +36,8 @@ const onCdrInput = (event: Event): void => {
     </label>
     <label class="pregame-toggle">
       <input
-        type="checkbox"
         id="pregame-urf"
+        type="checkbox"
         :checked="manaFree"
         @change="emit('update:manaFree', ($event.target as HTMLInputElement).checked)"
       />

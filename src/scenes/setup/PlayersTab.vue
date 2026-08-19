@@ -28,7 +28,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="participant-list" id="pregame-participant-list">
+  <div id="pregame-participant-list" class="participant-list">
     <ParticipantCard
       label="Bạn"
       is-player
@@ -54,8 +54,8 @@ const emit = defineEmits<{
 
     <button
       v-if="config.ai.count < AI_COUNT_MAX"
-      type="button"
       id="pregame-add-bot-btn"
+      type="button"
       class="participant-add-btn"
       @click="emit('addBot')"
     >

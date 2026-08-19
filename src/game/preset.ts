@@ -661,7 +661,7 @@ export const getSpellDisplay = (
         typeof instance.effectiveManaCost === 'number' ? instance.effectiveManaCost : 0,
     };
   } catch (error) {
-    // eslint-disable-next-line no-console
+     
     console.error(
       `preset.ts: a spell failed to construct for display (${SpellClass?.name ?? '?'})`,
       error
