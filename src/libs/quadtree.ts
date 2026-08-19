@@ -27,12 +27,25 @@ export class Rectangle {
   y: number;
   w: number;
   h: number;
-  data: any;
+  /** Whatever the caller wants back out of `Quadtree.retrieve` — a game object, or omitted for a pure query area. */
+  data: unknown;
   bounds: { minX: number; minY: number; maxX: number; maxY: number };
   /** Dedupe marker for the current `Quadtree.retrieve` — see `_collect`. */
   _qtStamp = 0;
 
-  constructor({ x, y, w, h, data }: { x: number; y: number; w: number; h: number; data?: any }) {
+  constructor({
+    x,
+    y,
+    w,
+    h,
+    data,
+  }: {
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+    data?: unknown;
+  }) {
     this.x = x;
     this.y = y;
     this.w = w;
@@ -79,12 +92,13 @@ export class Circle {
   x: number;
   y: number;
   r: number;
-  data: any;
+  /** Whatever the caller wants back out of `Quadtree.retrieve` — a game object, or omitted for a pure query area. */
+  data: unknown;
   bounds: { minX: number; minY: number; maxX: number; maxY: number };
   /** Dedupe marker for the current `Quadtree.retrieve` — see `_collect`. */
   _qtStamp = 0;
 
-  constructor({ x, y, r, data }: { x: number; y: number; r: number; data?: any }) {
+  constructor({ x, y, r, data }: { x: number; y: number; r: number; data?: unknown }) {
     this.x = x;
     this.y = y;
     this.r = r;
@@ -147,7 +161,8 @@ export class Line {
   y1: number;
   x2: number;
   y2: number;
-  data: any;
+  /** Whatever the caller wants back out of `Quadtree.retrieve` — a game object, or omitted for a pure query area. */
+  data: unknown;
   bounds: { minX: number; minY: number; maxX: number; maxY: number };
   /** Dedupe marker for the current `Quadtree.retrieve` — see `_collect`. */
   _qtStamp = 0;
@@ -163,7 +178,7 @@ export class Line {
     y1: number;
     x2: number;
     y2: number;
-    data?: any;
+    data?: unknown;
   }) {
     this.x1 = x1;
     this.y1 = y1;
@@ -258,6 +273,9 @@ export interface QuadtreeConfig {
   maxLevels?: number;
 }
 
+/** Every shape a tree can hold or be queried with — every real caller passes one of these three. */
+export type QuadtreeArea = Rectangle | Circle | Line;
+
 export class Quadtree {
   /**
    * Monotonic id for the current `retrieve` walk, shared by every tree in the
@@ -270,7 +288,7 @@ export class Quadtree {
   maxObjects: number;
   maxLevels: number;
   level: number;
-  objects: any[];
+  objects: QuadtreeArea[];
   nodes: Quadtree[];
 
   constructor(
@@ -285,7 +303,7 @@ export class Quadtree {
     this.nodes = [];
   }
 
-  getIndex(areaObj: { qtIndex: (bounds: any) => number }): number {
+  getIndex(areaObj: QuadtreeArea): number {
     return areaObj.qtIndex(this.bounds);
   }
 
@@ -305,7 +323,7 @@ export class Quadtree {
     this.nodes[3] = new Quadtree({ x: x + w, y: y + h, w, h, maxObjects, maxLevels }, level);
   }
 
-  insert(areaObj: { qtIndex: (bounds: any) => number }): void {
+  insert(areaObj: QuadtreeArea): void {
     // if we have subnodes, call insert on matching subnodes
     if (this.nodes.length) {
       const quadrants = this.getIndex(areaObj);
@@ -336,10 +354,7 @@ export class Quadtree {
     }
   }
 
-  retrieve(
-    areaObj: { qtIndex: (bounds: any) => number; intersect: (other: any) => boolean },
-    cleanUp = true
-  ): any[] {
+  retrieve(areaObj: QuadtreeArea, cleanUp = true): QuadtreeArea[] {
     if (!cleanUp) {
       // Internal recursive step (called by a parent node's cleanUp pass):
       // just gather this node's + matching children's objects, duplicates
@@ -371,16 +386,12 @@ export class Quadtree {
     // index order) is unchanged, and the intersect test moved inside the walk
     // cannot reorder anything, so callers still see first-occurrence order.
     const stamp = ++Quadtree._retrieveStamp;
-    const returnObjects: any[] = [];
+    const returnObjects: QuadtreeArea[] = [];
     this._collect(areaObj, returnObjects, stamp);
     return returnObjects;
   }
 
-  private _collect(
-    areaObj: { qtIndex: (bounds: any) => number; intersect: (other: any) => boolean },
-    accumulator: any[],
-    stamp: number
-  ): void {
+  private _collect(areaObj: QuadtreeArea, accumulator: QuadtreeArea[], stamp: number): void {
     for (let i = 0; i < this.objects.length; i++) {
       const obj = this.objects[i];
       // Stamp before testing: a rejected object must still be marked seen, or

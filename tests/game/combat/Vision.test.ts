@@ -136,7 +136,7 @@ describe('hasLineOfSight', () => {
       getObstaclesInArea: (area: unknown, types: string[] = []) =>
         tree
           .retrieve(area as never)
-          .map((region: { data: typeof wall }) => region.data)
+          .map(region => region.data as typeof wall)
           .filter(o => !types.length || types.includes(o.type)),
     };
 

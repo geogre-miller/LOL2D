@@ -247,10 +247,12 @@ export default class TerrainMap {
   }
 
   getObstaclesInArea(area: Rectangle | Circle, terrainTypes: string[] = []): Obstacle[] {
-    return this.quadtree
-      .retrieve(area)
-      .map((o: Rectangle) => o.data)
-      .filter((o: Obstacle) => !terrainTypes.length || terrainTypes.includes(o.type));
+    const result: Obstacle[] = [];
+    for (const shape of this.quadtree.retrieve(area)) {
+      const o = shape.data as Obstacle;
+      if (!terrainTypes.length || terrainTypes.includes(o.type)) result.push(o);
+    }
+    return result;
   }
 
   getObstaclesInView(terrainTypes?: string[]): Obstacle[] {
