@@ -41,5 +41,13 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'off',
     },
   },
+  {
+    // if (false) { ...@ts-expect-error... } is dead code on purpose: tsc still
+    // type-checks the block, verifying the error fires, without running it.
+    files: ['tests/game/types/**/*.ts'],
+    rules: {
+      'no-constant-condition': 'off',
+    },
+  },
   eslintConfigPrettier
 );
