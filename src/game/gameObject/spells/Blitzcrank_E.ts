@@ -5,6 +5,7 @@ import { PredefinedFilters } from '@/game/managers/ObjectManager';
 import Spell from '@/game/gameObject/Spell';
 import SpellObject from '@/game/gameObject/SpellObject';
 import Airborne from '@/game/gameObject/buffs/Airborne';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export default class Blitzcrank_E extends Spell {
   // Not a projectile, but the drag still only picks direction: the cone is
@@ -47,7 +48,7 @@ export default class Blitzcrank_E extends Spell {
     });
 
     const hitPositions: p5.Vector[] = [];
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy: AttackableUnit) => {
       const airborneBuff = new Airborne(this.airborneDuration, this.owner, enemy);
       airborneBuff.height = this.airborneHeight;
       airborneBuff.image = this.image;

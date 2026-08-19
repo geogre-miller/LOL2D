@@ -62,7 +62,7 @@ export class SpellName_Missile extends MissileSpellObject {
     trailColor: '#77F5',
   });
 
-  onHit(enemy: any) {
+  onHit(enemy) {
     enemy.takeDamage(this.damage, this.owner);
     // enemy.addBuff(new SomeBuff(1000, this.owner, enemy));
   }

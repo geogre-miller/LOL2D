@@ -5,6 +5,7 @@ import TrailSystem from '@/game/gameObject/helpers/TrailSystem';
 import Slow from '@/game/gameObject/buffs/Slow';
 import Spell from '@/game/gameObject/Spell';
 import MissileSpellObject from '@/game/gameObject/MissileSpellObject';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export default class Zed_Q extends Spell {
   targetingMode = 'DIRECTION' as const;
@@ -75,7 +76,7 @@ export class Zed_Q_Object extends MissileSpellObject {
     return this.position.copy().add(p5.Vector.fromAngle(this.angle).mult(5));
   }
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     const slowBuff = new Slow(200, this.owner, enemy);
     slowBuff.percent = 0.5;
     enemy.addBuff(slowBuff);

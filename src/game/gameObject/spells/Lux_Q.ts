@@ -5,6 +5,7 @@ import Spell from '@/game/gameObject/Spell';
 import SpellObject from '@/game/gameObject/SpellObject';
 import RootBuff from '@/game/gameObject/buffs/Root';
 import TrailSystem from '@/game/gameObject/helpers/TrailSystem';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 /** Faces on the prism, and spokes in the burst it leaves. */
 export const PRISM_FACES = 6;
@@ -60,7 +61,7 @@ export class Lux_Q_Object extends MissileSpellObject {
     this._age += deltaTime;
   }
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     const stunBuff = new RootBuff(this.stunTime, this.owner, enemy);
     enemy.addBuff(stunBuff);
     enemy.takeDamage(20, this.owner);

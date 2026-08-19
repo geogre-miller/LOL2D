@@ -5,6 +5,7 @@ import Spell from '@/game/gameObject/Spell';
 import SpellObject from '@/game/gameObject/SpellObject';
 import AoePulse from '@/game/gameObject/spellObjects/AoePulse';
 import Airborne from '@/game/gameObject/buffs/Airborne';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export const RADIUS = 190;
 export const DAMAGE = 22;
@@ -30,7 +31,7 @@ export default class Alistar_Q extends Spell {
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
 
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy: AttackableUnit) => {
       enemy.takeDamage(DAMAGE, this.owner);
       enemy.addBuff(new Airborne(AIRBORNE_DURATION, this.owner, enemy));
     });

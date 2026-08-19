@@ -5,6 +5,7 @@ import Spell from '@/game/gameObject/Spell';
 import Pet from '@/game/gameObject/attackableUnits/Pet';
 import AoePulse from '@/game/gameObject/spellObjects/AoePulse';
 import DamageOverTime from '@/game/gameObject/buffs/DamageOverTime';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export const MAX_RANGE = 450;
 export const SUMMON_DAMAGE = 34;
@@ -76,7 +77,7 @@ export default class Annie_R extends Spell {
       area: new Circle({ x: spot.x, y: spot.y, r: SUMMON_RADIUS }),
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
-    enemies.forEach((enemy: any) => enemy.takeDamage(SUMMON_DAMAGE, this.owner));
+    enemies.forEach((enemy: AttackableUnit) => enemy.takeDamage(SUMMON_DAMAGE, this.owner));
 
     // Tibbers arrives in a pillar of fire, so the impact has to be fire-shaped:
     // tongues that lick outward and taper, not slabs of rock heaved out of the
@@ -149,7 +150,7 @@ export class Tibbers extends Pet {
       area: new Circle({ x: this.position.x, y: this.position.y, r: AURA_RADIUS }),
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.teamId)],
     });
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy) => {
       enemy.takeDamage(AURA_DAMAGE_PER_TICK, this.ownerUnit);
       const burn = new DamageOverTime(600, this.ownerUnit, enemy);
       burn.stackId = 'tibbers_burn';

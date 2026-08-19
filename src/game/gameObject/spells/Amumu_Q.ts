@@ -7,6 +7,7 @@ import SpellObject from '@/game/gameObject/SpellObject';
 import Dash from '@/game/gameObject/buffs/Dash';
 import Stun from '@/game/gameObject/buffs/Stun';
 import TrailSystem from '@/game/gameObject/helpers/TrailSystem';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 /** Dirty linen, with a darker weave underneath for contrast on pale ground. */
 const LINEN: [number, number, number] = [235, 222, 172];
@@ -79,7 +80,7 @@ export class Amumu_Q_Object extends MissileSpellObject {
     trailColor: '#E8D9A044',
   });
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     this.enemyHit = enemy;
     this.isMissile = false;
     this._catchFlash = 400;

@@ -82,7 +82,7 @@ export class ChoGath_W_Object extends SpellObject {
       ],
     });
 
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy) => {
       const stunBuff = new Stun(this.stunTime, this.owner, enemy);
       enemy.addBuff(stunBuff);
 

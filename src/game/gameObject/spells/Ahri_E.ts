@@ -6,6 +6,7 @@ import Spell from '@/game/gameObject/Spell';
 import SpellObject from '@/game/gameObject/SpellObject';
 import Charm from '@/game/gameObject/buffs/Charm';
 import TrailSystem from '@/game/gameObject/helpers/TrailSystem';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 /** Windup: the kiss forms on her lips instead of appearing at full size. */
 export const KISS_SPAWN_MS = 120;
@@ -69,7 +70,7 @@ export class Ahri_E_Object extends MissileSpellObject {
     this._age += deltaTime;
   }
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     const charmBuff = new Charm(this.charmTime, this.owner, enemy);
     charmBuff.speed = 1;
     enemy.addBuff(charmBuff);

@@ -78,7 +78,7 @@ export class Singed_Q_Cloud extends SpellObject {
       area: new Circle({ x: this.position.x, y: this.position.y, r: this.radius }),
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy) => {
       const poison = new DamageOverTime(1200, this.owner, enemy);
       poison.stackId = 'singed_q_poison';
       poison.name = 'Độc Dược';

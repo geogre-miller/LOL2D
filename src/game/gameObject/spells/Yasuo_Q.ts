@@ -9,6 +9,7 @@ import SpellObject from '@/game/gameObject/SpellObject';
 import MissileSpellObject from '@/game/gameObject/MissileSpellObject';
 import Airborne from '@/game/gameObject/buffs/Airborne';
 import RootBuff from '@/game/gameObject/buffs/Root';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 // Tuning lives here so the tests and the HUD read the same numbers the spell
 // does — retuning a value must never mean editing something else to match.
@@ -337,7 +338,7 @@ export class Yasuo_Q3_Object extends MissileSpellObject {
     this.angle += 0.2;
   }
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     const buff = new Airborne(this.airBorneTime, this.owner, enemy);
     buff.image = AssetManager.get('spell_yasuo_q3');
     enemy.addBuff(buff);

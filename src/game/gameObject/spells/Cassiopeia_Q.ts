@@ -68,7 +68,7 @@ export class Cassiopeia_Q_Object extends SpellObject {
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
 
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy) => {
       enemy.takeDamage(IMPACT_DAMAGE, this.owner);
       const poison = new DamageOverTime(POISON_DURATION, this.owner, enemy);
       poison.stackId = 'cassiopeia_poison';

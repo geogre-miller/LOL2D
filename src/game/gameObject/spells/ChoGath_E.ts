@@ -5,6 +5,7 @@ import Spell from '@/game/gameObject/Spell';
 import SpellObject from '@/game/gameObject/SpellObject';
 import DamageOverTime from '@/game/gameObject/buffs/DamageOverTime';
 import TrailSystem from '@/game/gameObject/helpers/TrailSystem';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export default class ChoGath_E extends Spell {
   targetingMode = 'DIRECTION' as const;
@@ -56,7 +57,7 @@ export class ChoGath_E_Object extends MissileSpellObject {
     this._shake += 0.4;
   }
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     enemy.takeDamage(this.damage, this.owner);
 
     const bleed = new DamageOverTime(this.bleedDuration, this.owner, enemy);

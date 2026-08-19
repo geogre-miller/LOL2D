@@ -147,7 +147,7 @@ export class Jinx_R_Object extends MissileSpellObject {
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
 
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy) => {
       const max = enemy.stats?.maxHealth?.value ?? 0;
       const missing = max > 0 ? 1 - enemy.stats.health.value / max : 0;
       // The missing-health half is deliberately not scaled by distance — the

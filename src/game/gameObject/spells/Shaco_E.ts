@@ -5,6 +5,7 @@ import { PredefinedFilters } from '@/game/managers/ObjectManager';
 import Spell from '@/game/gameObject/Spell';
 import TrailSystem from '@/game/gameObject/helpers/TrailSystem';
 import { Shaco_W_Bullet_Object } from './Shaco_W';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export const RANGE = 250;
 export const DAMAGE = 15;
@@ -58,7 +59,7 @@ export default class Shaco_E extends Spell {
     // Find the closest enemy to the mouse
     let closestEnemy = enemies[0];
     let closestDistance = closestEnemy.position.dist(this.aimPoint);
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy: AttackableUnit) => {
       const distance = enemy.position.dist(this.aimPoint);
       if (distance < closestDistance) {
         closestDistance = distance;

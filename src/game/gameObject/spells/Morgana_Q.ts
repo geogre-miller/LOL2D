@@ -5,6 +5,7 @@ import Spell from '@/game/gameObject/Spell';
 import SpellObject from '@/game/gameObject/SpellObject';
 import Root from '@/game/gameObject/buffs/Root';
 import TrailSystem from '@/game/gameObject/helpers/TrailSystem';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 /** Bruised violet, the colour of the whole Dark Binding kit. */
 const BINDING_COLOR: [number, number, number] = [186, 96, 240];
@@ -62,7 +63,7 @@ export class Morgana_Q_Object extends MissileSpellObject {
     this.angle += 0.15;
   }
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     enemy.takeDamage(this.damage, this.owner);
 
     const rootBuff = new Root(this.rootTime, this.owner, enemy);

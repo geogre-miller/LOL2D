@@ -4,6 +4,7 @@ import VectorUtils from '@/utils/vector.utils';
 import RootBuff from '@/game/gameObject/buffs/Root';
 import Spell from '@/game/gameObject/Spell';
 import MissileSpellObject from '@/game/gameObject/MissileSpellObject';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export default class Leblanc_E extends Spell {
   targetingMode = 'DIRECTION' as const;
@@ -78,7 +79,7 @@ export class Leblanc_E_Object extends MissileSpellObject {
   };
   phase: number = Leblanc_E_Object.PHASES.MOVING;
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     this.enemyHit = enemy;
     this.enemyHit.takeDamage(this.hitDamage, this.owner);
     this.isMissile = false;

@@ -123,7 +123,7 @@ export class Rammus_R_Leap extends SpellObject {
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
 
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy) => {
       enemy.takeDamage(DAMAGE, this.owner);
       enemy.addBuff(new Airborne(600, this.owner, enemy));
       const slow = new Slow(2000, this.owner, enemy);

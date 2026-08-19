@@ -226,7 +226,7 @@ export class Teemo_R_Object extends SpellObject {
             filters: [PredefinedFilters.canTakeDamageFromTeam(this.teamId as any)],
           });
 
-          enemiesInRange.forEach((enemy: any) => {
+          enemiesInRange.forEach((enemy) => {
             const slowBuff = new Slow(SLOW_MS, this.owner, enemy);
             slowBuff.buffAddType = BuffAddType.RENEW_EXISTING;
             slowBuff.percent = SLOW_PERCENT;

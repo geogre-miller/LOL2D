@@ -7,6 +7,7 @@ import Airborne from '@/game/gameObject/buffs/Airborne';
 import Dash from '@/game/gameObject/buffs/Dash';
 import Spell from '@/game/gameObject/Spell';
 import SpellObject from '@/game/gameObject/SpellObject';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export const MAX_RANGE = 350;
 export const HIT_RADIUS = 100;
@@ -64,7 +65,7 @@ export default class Malphite_R extends Spell {
         filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
       });
 
-      enemies.forEach((enemy: any) => {
+      enemies.forEach((enemy: AttackableUnit) => {
         const airborneBuff = new Airborne(AIRBORNE_MS, this.owner, enemy);
         airborneBuff.image = this.image;
         enemy.addBuff(airborneBuff);

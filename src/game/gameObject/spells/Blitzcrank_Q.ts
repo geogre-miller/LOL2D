@@ -7,6 +7,7 @@ import Dash from '@/game/gameObject/buffs/Dash';
 import RootBuff from '@/game/gameObject/buffs/Root';
 import VectorUtils from '@/utils/vector.utils';
 import { Rectangle } from '@/libs/quadtree';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export default class Blitzcrank_Q extends Spell {
   targetingMode = 'DIRECTION' as const;
@@ -82,7 +83,7 @@ export class Blitzcrank_Q_Object extends MissileSpellObject {
     if (this.phase === Blitzcrank_Q_Object.PHASES.GRAB) this.speed = this.grabSpeed;
   }
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     this.phase = Blitzcrank_Q_Object.PHASES.GRAB;
     this.champToGrab = enemy;
     this.destination = this.owner.position;

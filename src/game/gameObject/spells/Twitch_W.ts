@@ -150,7 +150,7 @@ export class Twitch_W_Object extends SpellObject {
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
 
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy) => {
       const slow = new Slow(700, this.owner, enemy);
       slow.percent = SLOW_PERCENT;
       enemy.addBuff(slow);

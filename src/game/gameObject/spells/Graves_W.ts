@@ -129,7 +129,7 @@ export class Graves_W_Object extends SpellObject {
       filters: [PredefinedFilters.canTakeDamage],
     });
 
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy) => {
       if (!enemy.hasBuff(Nearsight)) {
         const nearsight = new Nearsight(500, this.owner, enemy);
         nearsight.newVisionRadius = this.range;

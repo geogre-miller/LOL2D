@@ -114,7 +114,7 @@ export class Singed_W_Object extends SpellObject {
     // outlives one reapply tick, so neither debuff flickers off between ticks
     const buffDuration = this.reapplyInterval + this.debuffLinger;
 
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy) => {
       const slowBuff = new Slow(buffDuration, this.owner, enemy);
       slowBuff.image = this.image;
       slowBuff.buffAddType = BuffAddType.RENEW_EXISTING;

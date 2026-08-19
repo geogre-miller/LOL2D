@@ -137,7 +137,7 @@ export class Pantheon_E_Object extends SpellObject {
       area: new Circle({ x: this.position.x, y: this.position.y, r: REACH }),
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy) => {
       const toEnemy = Math.atan2(
         enemy.position.y - this.position.y,
         enemy.position.x - this.position.x

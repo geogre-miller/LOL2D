@@ -103,7 +103,7 @@ export class Lux_E_Object extends SpellObject {
       this.size = lerp(this.size, this.staticSize, 0.3);
 
       const enemies = this._getEnemisInRange();
-      enemies.forEach((enemy: any) => {
+      enemies.forEach((enemy) => {
         const slowBuff = new Slow(200, this.owner, enemy);
         slowBuff.buffAddType = BuffAddType.RENEW_EXISTING;
         slowBuff.percent = 0.5;
@@ -118,7 +118,7 @@ export class Lux_E_Object extends SpellObject {
         this.takedDamage = true;
 
         const enemies = this._getEnemisInRange();
-        enemies.forEach((enemy: any) => {
+        enemies.forEach((enemy) => {
           enemy.takeDamage(20, this.owner);
         });
       }

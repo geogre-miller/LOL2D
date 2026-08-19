@@ -4,6 +4,7 @@ import VectorUtils from '@/utils/vector.utils';
 import { PredefinedFilters } from '@/game/managers/ObjectManager';
 import Spell from '@/game/gameObject/Spell';
 import AoePulse from '@/game/gameObject/spellObjects/AoePulse';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export const REACH = 290;
 export const HALF_ANGLE = 0.55;
@@ -33,7 +34,7 @@ export default class Annie_W extends Spell {
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
 
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy: AttackableUnit) => {
       const toEnemy = Math.atan2(
         enemy.position.y - this.owner.position.y,
         enemy.position.x - this.owner.position.x

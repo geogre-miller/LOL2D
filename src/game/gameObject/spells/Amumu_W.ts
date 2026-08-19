@@ -48,7 +48,7 @@ export class Amumu_W_Object extends SpellObject {
       area: new Circle({ x: this.position.x, y: this.position.y, r: this.radius }),
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
-    enemies.forEach((enemy: any) => enemy.takeDamage(DAMAGE_PER_TICK, this.owner));
+    enemies.forEach((enemy) => enemy.takeDamage(DAMAGE_PER_TICK, this.owner));
   }
 
   draw() {

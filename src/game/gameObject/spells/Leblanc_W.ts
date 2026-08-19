@@ -5,6 +5,7 @@ import VectorUtils from '@/utils/vector.utils';
 import Dash from '@/game/gameObject/buffs/Dash';
 import Spell from '@/game/gameObject/Spell';
 import SpellObject from '@/game/gameObject/SpellObject';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 /** The illusion resolves into focus over this long, rather than appearing. */
 export const MIRROR_ASSEMBLE_MS = 300;
@@ -77,7 +78,7 @@ export default class Leblanc_W extends Spell {
           }),
           filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
         });
-        enemies.forEach((enemy: any) => {
+        enemies.forEach((enemy: AttackableUnit) => {
           enemy.takeDamage(20, this.owner);
         });
       };

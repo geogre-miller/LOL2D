@@ -6,6 +6,7 @@ import VectorUtils from '@/utils/vector.utils';
 import TrailSystem from '@/game/gameObject/helpers/TrailSystem';
 import { createReveal } from '@/game/gameObject/buffs/TrueSight';
 import { Rectangle } from '@/libs/quadtree';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 /** Lee Sin's own reveal slot, so his neither evicts nor is evicted by another spell's. */
 export const REVEAL_STACK_ID = 'leesin_q_reveal';
@@ -62,7 +63,7 @@ export default class LeeSin_Q extends Spell {
       obj.size = size;
       obj.hitDamage = hitDamage;
       obj.lifeTimeAfterHit = lifeTimeAfterHit;
-      obj.onHitCallback = (enemy: any) => {
+      obj.onHitCallback = (enemy) => {
         this.enemyHit = enemy;
         enemy.takeDamage(hitDamage, this.owner);
 
@@ -133,14 +134,14 @@ export class LeeSin_Q_Object extends MissileSpellObject {
     LeeSin_Q_Object.PHASES.MOVING;
 
   enemyHit: any = null;
-  onHitCallback: ((enemy: any) => void) | null = null;
+  onHitCallback: ((enemy: AttackableUnit) => void) | null = null;
 
   trailSystem = new TrailSystem({
     trailSize: this.size,
     trailColor: '#b5ede822',
   });
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     this.onHitCallback?.(enemy);
     this.enemyHit = enemy;
     this.phase = LeeSin_Q_Object.PHASES.HIT;

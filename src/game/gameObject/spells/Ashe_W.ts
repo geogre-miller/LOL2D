@@ -6,6 +6,7 @@ import SpellObject from '@/game/gameObject/SpellObject';
 import Slow from '@/game/gameObject/buffs/Slow';
 import VectorUtils from '@/utils/vector.utils';
 import TrailSystem from '@/game/gameObject/helpers/TrailSystem';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 /** Windup: each needle draws itself out of the bow rather than blinking in. */
 export const NEEDLE_SPAWN_MS = 90;
@@ -79,7 +80,7 @@ export class Ashe_W_Object extends MissileSpellObject {
     if (this.trailSystem) this.trailSystem.toRemove = true;
   }
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     const slowBuff = new Slow(1500, this.owner, enemy);
     slowBuff.percent = 0.75;
     slowBuff.buffAddType = BuffAddType.RENEW_EXISTING;

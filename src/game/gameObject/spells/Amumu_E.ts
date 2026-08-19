@@ -4,6 +4,7 @@ import { PredefinedFilters } from '@/game/managers/ObjectManager';
 import Spell from '@/game/gameObject/Spell';
 import SpellObject from '@/game/gameObject/SpellObject';
 import AoePulse from '@/game/gameObject/spellObjects/AoePulse';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export const RADIUS = 200;
 export const DAMAGE = 20;
@@ -29,7 +30,7 @@ export default class Amumu_E extends Spell {
       area: new Circle({ x: this.owner.position.x, y: this.owner.position.y, r: RADIUS }),
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
-    enemies.forEach((enemy: any) => enemy.takeDamage(DAMAGE, this.owner));
+    enemies.forEach((enemy: AttackableUnit) => enemy.takeDamage(DAMAGE, this.owner));
 
     // The grief half of the tantrum: a dark wave and the tears it throws. Its
     // own object, because it reaches 200 units past Amumu's body and outlives

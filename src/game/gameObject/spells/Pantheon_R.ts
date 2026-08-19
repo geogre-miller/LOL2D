@@ -213,7 +213,7 @@ export class Pantheon_R_Object extends SpellObject {
       area: new Circle({ x: this.landing.x, y: this.landing.y, r: this.radius }),
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy) => {
       enemy.takeDamage(DAMAGE, this.owner);
       const slow = new Slow(SLOW_DURATION, this.owner, enemy);
       slow.percent = SLOW_PERCENT;

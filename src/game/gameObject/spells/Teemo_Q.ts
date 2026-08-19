@@ -5,6 +5,7 @@ import Spell from '@/game/gameObject/Spell';
 import SpellObject from '@/game/gameObject/SpellObject';
 import Nearsight from '@/game/gameObject/buffs/Nearsight';
 import TrailSystem from '@/game/gameObject/helpers/TrailSystem';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export default class Teemo_Q extends Spell {
   targetingMode = 'DIRECTION' as const;
@@ -53,7 +54,7 @@ export class Teemo_Q_Object extends MissileSpellObject {
     this._roll += 0.5;
   }
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     enemy.takeDamage(this.damage, this.owner);
 
     const blindBuff = new Nearsight(this.blindTime, this.owner, enemy);

@@ -4,6 +4,7 @@ import { PredefinedFilters } from '@/game/managers/ObjectManager';
 import Spell from '@/game/gameObject/Spell';
 import AoePulse from '@/game/gameObject/spellObjects/AoePulse';
 import Root from '@/game/gameObject/buffs/Root';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export const RADIUS = 260;
 export const DAMAGE = 30;
@@ -26,7 +27,7 @@ export default class Amumu_R extends Spell {
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
 
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy: AttackableUnit) => {
       enemy.takeDamage(DAMAGE, this.owner);
       enemy.addBuff(new Root(ROOT_DURATION, this.owner, enemy));
     });

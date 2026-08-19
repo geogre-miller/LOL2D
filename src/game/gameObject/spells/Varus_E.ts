@@ -69,14 +69,14 @@ export class Varus_E_Object extends SpellObject {
 
     if (!this.landed) {
       this.landed = true;
-      enemies().forEach((enemy: any) => enemy.takeDamage(IMPACT_DAMAGE, this.owner));
+      enemies().forEach((enemy) => enemy.takeDamage(IMPACT_DAMAGE, this.owner));
       return;
     }
 
     this.sinceTick += deltaTime;
     if (this.sinceTick < 400) return;
     this.sinceTick -= 400;
-    enemies().forEach((enemy: any) => {
+    enemies().forEach((enemy) => {
       const slow = new Slow(700, this.owner, enemy);
       slow.percent = SLOW_PERCENT;
       enemy.addBuff(slow);

@@ -7,6 +7,7 @@ import Speedup from '@/game/gameObject/buffs/Speedup';
 import StatAmp from '@/game/gameObject/buffs/StatAmp';
 import { createReveal } from '@/game/gameObject/buffs/TrueSight';
 import { PredefinedParticleSystems } from '@/game/gameObject/helpers/ParticleSystem';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export const DURATION = 6000;
 export const SPEED_PERCENT = 0.4;
@@ -77,7 +78,7 @@ export default class Warwick_W extends Spell {
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
 
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy: AttackableUnit) => {
       const max = enemy.stats?.maxHealth?.value ?? 0;
       if (!max || enemy.stats.health.value / max > WOUNDED_THRESHOLD) return;
       enemy.addBuff(

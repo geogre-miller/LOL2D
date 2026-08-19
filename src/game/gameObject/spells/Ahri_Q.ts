@@ -6,6 +6,7 @@ import SpellObject from '@/game/gameObject/SpellObject';
 import Slow from '@/game/gameObject/buffs/Slow';
 import { PredefinedParticleSystems } from '@/game/gameObject/helpers/ParticleSystem';
 import TrailSystem from '@/game/gameObject/helpers/TrailSystem';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 /**
  * Nine tails. Every Ahri effect repeats the count, which is what makes her
@@ -95,7 +96,7 @@ export class Ahri_Q_Object extends MissileSpellObject {
     }
   }
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     const slowBuff = new Slow(500, this.owner, enemy);
     slowBuff.percent = 0.5;
     enemy.addBuff(slowBuff);

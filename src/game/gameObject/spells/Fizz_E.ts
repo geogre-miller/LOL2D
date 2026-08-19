@@ -11,6 +11,7 @@ import { StatsModifier } from '@/game/gameObject/Stats';
 import Dash from '@/game/gameObject/buffs/Dash';
 import Slow from '@/game/gameObject/buffs/Slow';
 import Untargetable from '@/game/gameObject/buffs/Untargetable';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 /**
  * Playful / Trickster.
@@ -173,7 +174,7 @@ export default class Fizz_E extends Spell {
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
 
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy: AttackableUnit) => {
       enemy.takeDamage(this.damage, this.owner);
 
       if (withSlow) {

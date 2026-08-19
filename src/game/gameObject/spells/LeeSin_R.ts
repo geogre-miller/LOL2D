@@ -9,6 +9,7 @@ import Airborne from '@/game/gameObject/buffs/Airborne';
 import Dash from '@/game/gameObject/buffs/Dash';
 import Stun from '@/game/gameObject/buffs/Stun';
 import ParticleSystem from '@/game/gameObject/helpers/ParticleSystem';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export default class LeeSin_R extends Spell {
   // Auto-locks its own target; see "auto-locking spells" in docs/ADDING_SPELLS.md.
@@ -52,7 +53,7 @@ export default class LeeSin_R extends Spell {
 
     let closestEnemyToMouse: any = null;
     let closestDistanceToMouse = Infinity;
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy: AttackableUnit) => {
       const distance = p5.Vector.dist(enemy.position, mouse);
       if (distance < closestDistanceToMouse) {
         closestDistanceToMouse = distance;
@@ -156,7 +157,7 @@ export class LeeSin_R_Object extends SpellObject {
       ],
     });
 
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy) => {
       enemy.takeDamage(this.collideDamage, this.owner);
 
       const airbornBuff = new Airborne(1000, this.owner, enemy);

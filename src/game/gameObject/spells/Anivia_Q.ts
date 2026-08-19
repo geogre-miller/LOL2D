@@ -10,6 +10,7 @@ import Chilled, { CHILL_DURATION_MS } from '@/game/gameObject/buffs/Chilled';
 import Slow from '@/game/gameObject/buffs/Slow';
 import Stun from '@/game/gameObject/buffs/Stun';
 import TrailSystem from '@/game/gameObject/helpers/TrailSystem';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 /**
  * Flash Frost. The chunk of ice flies THROUGH everyone, chilling them, and only
@@ -103,7 +104,7 @@ export class Anivia_Q_Object extends MissileSpellObject {
     maxLength: 22,
   });
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     enemy.takeDamage(this.damage, this.owner);
 
     const slowBuff = new Slow(this.slowTime, this.owner, enemy);
@@ -236,7 +237,7 @@ export class Anivia_Q_Blast extends SpellObject {
         filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
       });
 
-      enemies.forEach((enemy: any) => {
+      enemies.forEach((enemy) => {
         enemy.takeDamage(this.damage, this.owner);
 
         const stunBuff = new Stun(this.stunTime, this.owner, enemy);

@@ -63,7 +63,7 @@ export class ChoGath_Q_Object extends SpellObject {
           filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
         });
 
-        enemies.forEach((enemy: any) => {
+        enemies.forEach((enemy) => {
           const airborneBuff = new Airborne(1000, this.owner, enemy);
           enemy.addBuff(airborneBuff);
 

@@ -73,7 +73,7 @@ export class Graves_Q_Object extends MissileSpellObject {
       area: new Circle({ x: this.position.x, y: this.position.y, r: BLAST_RADIUS }),
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
-    enemies.forEach((enemy: any) => enemy.takeDamage(BLAST_DAMAGE, this.owner));
+    enemies.forEach((enemy) => enemy.takeDamage(BLAST_DAMAGE, this.owner));
 
     const blast = new AoePulse(this.owner);
     blast.position = this.position.copy();

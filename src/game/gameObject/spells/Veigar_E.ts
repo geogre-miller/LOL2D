@@ -167,7 +167,7 @@ export class Veigar_E_Object extends SpellObject {
         ],
       });
 
-      enemies.forEach((enemy: any) => {
+      enemies.forEach((enemy) => {
         const stunBuff = new Stun(STUN_TIME, this.owner, enemy);
         enemy.addBuff(stunBuff);
 

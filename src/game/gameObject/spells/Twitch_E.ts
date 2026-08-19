@@ -3,7 +3,8 @@ import AssetManager from '@/managers/AssetManager';
 import { PredefinedFilters } from '@/game/managers/ObjectManager';
 import Spell from '@/game/gameObject/Spell';
 import AoePulse from '@/game/gameObject/spellObjects/AoePulse';
-import DamageOverTime from '@/game/gameObject/buffs/DamageOverTime';
+import type Buff from '@/game/gameObject/Buff';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export const RANGE = 500;
 export const DAMAGE = 26;
@@ -48,8 +49,8 @@ export default class Twitch_E extends Spell {
       area: new Circle({ x: this.owner.position.x, y: this.owner.position.y, r: this.range }),
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
-    return enemies.filter((enemy: any) =>
-      enemy.buffs.some((buff: DamageOverTime) => buff.stackId === 'twitch_poison' && !buff.toRemove)
+    return enemies.filter((enemy: AttackableUnit) =>
+      enemy.buffs.some((buff: Buff) => buff.stackId === 'twitch_poison' && !buff.toRemove)
     );
   }
 

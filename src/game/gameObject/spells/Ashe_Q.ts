@@ -7,6 +7,7 @@ import Spell from '@/game/gameObject/Spell';
 import SpellObject from '@/game/gameObject/SpellObject';
 import Slow from '@/game/gameObject/buffs/Slow';
 import TrailSystem from '@/game/gameObject/helpers/TrailSystem';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export default class Ashe_Q extends Spell {
   targetingMode = 'DIRECTION' as const;
@@ -75,7 +76,7 @@ export class Ashe_Q_Object extends MissileSpellObject {
     if (this.trailSystem) this.trailSystem.toRemove = true;
   }
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     const slowBuff = new Slow(this.slowDuration, this.owner, enemy);
     slowBuff.percent = this.slowPercent;
     slowBuff.buffAddType = BuffAddType.RENEW_EXISTING;

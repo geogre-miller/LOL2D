@@ -8,6 +8,7 @@ import SpellObject from '@/game/gameObject/SpellObject';
 import Dash from '@/game/gameObject/buffs/Dash';
 import RootBuff from '@/game/gameObject/buffs/Root';
 import Stun from '@/game/gameObject/buffs/Stun';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 /** Lantern green — the same light the chain, the scythe and the shackle share. */
 const CHAIN_COLOR: [number, number, number] = [130, 255, 175];
@@ -175,7 +176,7 @@ export class Thresh_Q_Object extends MissileSpellObject {
   phase: (typeof Thresh_Q_Object.PHASES)[keyof typeof Thresh_Q_Object.PHASES] =
     Thresh_Q_Object.PHASES.FORWARD;
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     this.phase = Thresh_Q_Object.PHASES.SHACKLE;
     this.champHooked = enemy;
     this.isMissile = false; // stop colliding; the chain is spent

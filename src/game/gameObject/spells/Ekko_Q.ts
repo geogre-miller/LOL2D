@@ -9,6 +9,7 @@ import { effectiveRange } from '@/game/combat/Reach';
 import SpellObject from '@/game/gameObject/SpellObject';
 import TrailSystem from '@/game/gameObject/helpers/TrailSystem';
 import { PredefinedParticleSystems } from '@/game/gameObject/helpers/ParticleSystem';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export const EKKO_Q_OUT_DAMAGE = 20;
 export const EKKO_Q_RETURN_DAMAGE = 30;
@@ -136,7 +137,7 @@ export class Ekko_Q_Object extends MissileSpellObject {
     super.update();
   }
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     if (!this.returning) {
       if (!this.forwardHitTargets.includes(enemy)) {
         this.forwardHitTargets.push(enemy);

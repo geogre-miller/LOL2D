@@ -7,6 +7,7 @@ import Slow from '@/game/gameObject/buffs/Slow';
 import Speedup from '@/game/gameObject/buffs/Speedup';
 import Spell from '@/game/gameObject/Spell';
 import MissileSpellObject from '@/game/gameObject/MissileSpellObject';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export default class Olaf_Q extends Spell {
   targetingMode = 'POINT' as const;
@@ -107,7 +108,7 @@ export class Olaf_Q_Object extends MissileSpellObject {
     this.isMissile = false;
   }
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     const slowBuff = new Slow(1000, this.owner, enemy);
     slowBuff.percent = 0.4;
     enemy.addBuff(slowBuff);

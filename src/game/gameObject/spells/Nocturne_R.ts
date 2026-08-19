@@ -7,6 +7,7 @@ import SpellObject from '@/game/gameObject/SpellObject';
 import Champion from '@/game/gameObject/attackableUnits/Champion';
 import Dash from '@/game/gameObject/buffs/Dash';
 import Nearsight from '@/game/gameObject/buffs/Nearsight';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 // Exported so the suite asserts the wiring, not a copy of the number —
 // retuning a value should not mean editing the test.
@@ -77,7 +78,7 @@ export default class Nocturne_R extends Spell {
       ],
     });
 
-    enemyChampions.forEach((enemy: any) => {
+    enemyChampions.forEach((enemy: AttackableUnit) => {
       const nearsightBuff = new Nearsight(this.nearsightTime, this.owner, enemy);
       nearsightBuff.image = Nocturne_R.PHASES.R1.image;
       nearsightBuff.newVisionRadius = this.newVisionRadius;

@@ -5,6 +5,7 @@ import Spell from '@/game/gameObject/Spell';
 import AoePulse from '@/game/gameObject/spellObjects/AoePulse';
 import Fear from '@/game/gameObject/buffs/Fear';
 import Shield from '@/game/gameObject/buffs/Shield';
+import type AttackableUnit from '@/game/gameObject/attackableUnits/AttackableUnit';
 
 export const RADIUS = 300;
 export const SHIELD_AMOUNT = 60;
@@ -35,7 +36,7 @@ export default class Warwick_E extends Spell {
       area: new Circle({ x: this.owner.position.x, y: this.owner.position.y, r: RADIUS }),
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy: AttackableUnit) => {
       const fear = new Fear(FEAR_DURATION, this.owner, enemy);
       fear.sourcePosition = this.owner.position.copy();
       enemy.addBuff(fear);

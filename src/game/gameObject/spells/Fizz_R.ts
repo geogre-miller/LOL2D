@@ -108,7 +108,7 @@ export class Fizz_R_Shark extends SpellObject {
       area: new Circle({ x: this.position.x, y: this.position.y, r: this.radius }),
       filters: [PredefinedFilters.canTakeDamageFromTeam(this.owner.teamId)],
     });
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy) => {
       enemy.takeDamage(DAMAGE, this.owner);
       enemy.addBuff(new Airborne(700, this.owner, enemy));
       const slow = new Slow(2000, this.owner, enemy);

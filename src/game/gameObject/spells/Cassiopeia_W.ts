@@ -132,7 +132,7 @@ export class Cassiopeia_W_Object extends SpellObject {
     const controlDuration = this.reapplyInterval + this.debuffLinger;
     const slowPercent = this._currentSlowPercent();
 
-    enemies.forEach((enemy: any) => {
+    enemies.forEach((enemy) => {
       // DamageOverTime renews by default, so standing in the cloud only pushes the
       // remaining duration back instead of restarting the damage ticks
       const poisonBuff = new DamageOverTime(this.poisonDuration, this.owner, enemy);

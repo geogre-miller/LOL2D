@@ -283,7 +283,7 @@ export class Veigar_Q_Object extends MissileSpellObject {
     this._pulse += deltaTime;
   }
 
-  onHit(enemy: any) {
+  onHit(enemy: AttackableUnit) {
     // The power is paid for by the corpse. The orb pierces, so stacking per
     // body it touched made one cast into a wave five permanent points of max
     // mana — the same "landed, not killed" mistake Nasus Q and Cho'Gath R had.
