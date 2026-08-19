@@ -1,3 +1,22 @@
+/** Vendor-prefixed Fullscreen API entry points, missing from lib.dom.d.ts. */
+interface VendorFullscreenElement extends HTMLElement {
+  webkitRequestFullscreen?: () => unknown;
+  mozRequestFullScreen?: () => unknown;
+  msRequestFullscreen?: () => unknown;
+}
+
+interface VendorFullscreenDocument extends Document {
+  webkitFullscreenElement?: Element | null;
+  mozCancelFullScreen?: () => void;
+  webkitExitFullscreen?: () => void;
+  msExitFullscreen?: () => void;
+}
+
+/** `screen.orientation.lock`, missing from lib.dom.d.ts's `ScreenOrientation` (`.unlock` is already there). */
+interface LockableScreenOrientation extends ScreenOrientation {
+  lock?: (orientation: string) => Promise<void>;
+}
+
 const DomUtils = {
   preventRightClick(element: HTMLElement) {
     element.addEventListener('contextmenu', event => event.preventDefault());
@@ -24,18 +43,20 @@ const DomUtils = {
    */
   fullscreenSupported(): boolean {
     if (typeof document === 'undefined') return false;
-    const element = document.documentElement as any;
+    const element = document.documentElement as VendorFullscreenElement;
     return Boolean(
-      element?.requestFullscreen ||
-      element?.webkitRequestFullscreen ||
-      element?.mozRequestFullScreen ||
-      element?.msRequestFullscreen
+      element.requestFullscreen ||
+      element.webkitRequestFullscreen ||
+      element.mozRequestFullScreen ||
+      element.msRequestFullscreen
     );
   },
 
   isFullscreen(): boolean {
     if (typeof document === 'undefined') return false;
-    return Boolean(document.fullscreenElement || (document as any).webkitFullscreenElement);
+    return Boolean(
+      document.fullscreenElement || (document as VendorFullscreenDocument).webkitFullscreenElement
+    );
   },
 
   /**
@@ -52,7 +73,8 @@ const DomUtils = {
    * whether the lock worked, failed, or was never available.
    */
   lockLandscape(): void {
-    const orientation = typeof screen === 'undefined' ? null : (screen as any)?.orientation;
+    const orientation: LockableScreenOrientation | null =
+      typeof screen === 'undefined' ? null : (screen.orientation as LockableScreenOrientation);
     if (typeof orientation?.lock !== 'function') return;
     try {
       Promise.resolve(orientation.lock('landscape')).catch(() => {});
@@ -62,7 +84,8 @@ const DomUtils = {
   },
 
   unlockOrientation(): void {
-    const orientation = typeof screen === 'undefined' ? null : (screen as any)?.orientation;
+    const orientation: LockableScreenOrientation | null =
+      typeof screen === 'undefined' ? null : (screen.orientation as LockableScreenOrientation);
     if (typeof orientation?.unlock !== 'function') return;
     try {
       orientation.unlock();
@@ -72,7 +95,7 @@ const DomUtils = {
   },
 
   goFullscreen() {
-    const element = document.documentElement as any;
+    const element = document.documentElement as VendorFullscreenElement;
     const request: undefined | (() => unknown) =
       element.requestFullscreen ??
       element.mozRequestFullScreen ??
@@ -90,10 +113,11 @@ const DomUtils = {
   },
   exitFullscreen() {
     this.unlockOrientation();
+    const doc = document as VendorFullscreenDocument;
     if (document.exitFullscreen) document.exitFullscreen();
-    else if ((document as any).mozCancelFullScreen) (document as any).mozCancelFullScreen();
-    else if ((document as any).webkitExitFullscreen) (document as any).webkitExitFullscreen();
-    else if ((document as any).msExitFullscreen) (document as any).msExitFullscreen();
+    else if (doc.mozCancelFullScreen) doc.mozCancelFullScreen();
+    else if (doc.webkitExitFullscreen) doc.webkitExitFullscreen();
+    else if (doc.msExitFullscreen) doc.msExitFullscreen();
   },
   toggleFullscreen(): boolean {
     if (this.isFullscreen()) {
